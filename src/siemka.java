@@ -12,6 +12,8 @@ public class siemka {
 			System.out.println("elo");
 		}
 		
+		System.out.print("siemaaaa");
+		
 		//serializacja do XML
 		Cos cos1 = new Cos(2);
 		FileOutputStream fos = new FileOutputStream("Test.xml");
