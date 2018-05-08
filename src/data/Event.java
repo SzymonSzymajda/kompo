@@ -15,20 +15,6 @@ public class Event {
 		EventDate = eventDate;
 		Description = description;
 	}
-	
-	public Event(Date eventDate, String description, Person person) {
-		super();
-		EventDate = eventDate;
-		Description = description;
-		ConnectedPeople.add(person);
-	}
-
-	public Event(Date eventDate, String description, List<Person> connectedPeople) {
-		super();
-		EventDate = eventDate;
-		Description = description;
-		ConnectedPeople = new HashSet<Person>(connectedPeople);
-	}
 
 	public Date getEventDate() {
 		return EventDate;
@@ -50,8 +36,8 @@ public class Event {
 		return ConnectedPeople;
 	}
 
-	public void setConnectedPeople(HashSet<Person> connectedPeople) {
-		ConnectedPeople = connectedPeople;
+	public void addConnectedPerson(Person person) {
+		ConnectedPeople.add(person);
 	}
 
 	@Override
