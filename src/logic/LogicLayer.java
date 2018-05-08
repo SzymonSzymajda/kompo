@@ -12,55 +12,94 @@ public class LogicLayer {
 	
 	private DataService Data = new DataService();
 	
-	
 	//CRUD Person
 		public void createPerson(String name, String surname) {
 			Data.createPerson(new Person(name, surname));
 		}
 		
-		public Person getPerson(int id) throws DataServiceException {
-			return Data.getPerson(id);
+		public Person getPerson(int id) throws LogicLayerException{
+			try {
+				return Data.getPerson(id);
+			} catch (DataServiceException e) {
+				throw new LogicLayerException("Given ID is not mapped");
+			}
 		}
 		
-		public void updatePerson(int id, Person p) throws DataServiceException {
-			Data.updatePerson(id, p);		
+		public void updatePerson(int id, Person p) throws LogicLayerException {
+			try {
+				Data.updatePerson(id, p);
+			} catch (DataServiceException e) {
+				throw new LogicLayerException("Given ID is not mapped");
+			}		
 		}
 		
-		public void deletePerson(int id) throws DataServiceException {
-			Data.deletePerson(id);
+		public void deletePerson(int id) throws LogicLayerException {
+			try {
+				Data.deletePerson(id);
+			} catch (DataServiceException e) {
+				throw new LogicLayerException("Given ID is not mapped");
+			}
 		}
 		
-		public void deletePerson(Person p) throws DataServiceException {
-			Data.deletePerson(p);
+		public void deletePerson(Person p) throws LogicLayerException {
+			try {
+				Data.deletePerson(p);
+			} catch (DataServiceException e) {
+				throw new LogicLayerException("Given ID is not mapped");
+			}
 		}
 		
 		public TreeMap<Integer, Person> getAllPeople(){
 			return Data.getAllPeople();
 		}
 		
-		//CRUD Event
+	//CRUD Event
 		public void createEvent(String name, Date date) {
 			Data.createEvent(new Event(date, name));
 		}
 		
-		public Event getEvent(int id) throws DataServiceException {
-			return Data.getEvent(id);
+		public Event getEvent(int id) throws LogicLayerException {
+			try {
+				return Data.getEvent(id);
+			} catch (DataServiceException e) {
+				throw new LogicLayerException("Given ID is not mapped");
+			}
 		}
-		public void updateEvent(int id, Event e) throws DataServiceException {
-			Data.updateEvent(id, e);		
+		
+		public void updateEvent(int id, Event e) throws LogicLayerException {
+			try {
+				Data.updateEvent(id, e);
+			} catch (DataServiceException e1) {
+				throw new LogicLayerException("Given ID is not mapped");
+			}		
 		}
-		public void deleteEvent(int id) throws DataServiceException {
-			Data.deleteEvent(id);
+		
+		public void deleteEvent(int id) throws LogicLayerException {
+			try {
+				Data.deleteEvent(id);
+			} catch (DataServiceException e) {
+				throw new LogicLayerException("Given ID is not mapped");
+			}
 		}
-		public void deleteEvent(Event e) throws DataServiceException {
-			Data.deleteEvent(e);
+		
+		public void deleteEvent(Event e) throws LogicLayerException {
+			try {
+				Data.deleteEvent(e);
+			} catch (DataServiceException e1) {
+				throw new LogicLayerException("Given ID is not mapped");
+			}
 		}
+		
 		public TreeMap<Integer, Event> getAllEvents(){
 			return Data.getAllEvents();
 		}
 		
-		public void addPeopleToEvent(int id, Person...persons) throws DataServiceException {
-			Data.addPeopleToEvent(id, persons);
+		public void addPeopleToEvent(int id, Person...persons) throws LogicLayerException {
+			try {
+				Data.addPeopleToEvent(id, persons);
+			} catch (DataServiceException e) {
+				throw new LogicLayerException("Given ID is not mapped");
+			}
 		}
 	
 
