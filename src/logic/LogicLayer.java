@@ -1,6 +1,5 @@
 package logic;
 
-import java.util.Date;
 import java.util.TreeMap;
 
 import data.DataService;
@@ -54,8 +53,8 @@ public class LogicLayer {
 		}
 		
 	//CRUD Event
-		public void createEvent(String name, Date date) {
-			Data.createEvent(new Event(date, name));
+		public void createEvent(String description, int year, int month, int day) {
+			Data.createEvent(new Event(year, month, day, description));
 		}
 		
 		public Event getEvent(int id) throws LogicLayerException {
