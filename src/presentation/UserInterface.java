@@ -164,10 +164,11 @@ public class UserInterface extends JFrame {
 	 
 	    int startDay = cal.get(Calendar.DAY_OF_WEEK);
 	    int numberOfDays = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
-	    int weeks = cal.getActualMaximum(Calendar.WEEK_OF_MONTH);
+	    int weeks = (int) Math.ceil(( (float) numberOfDays + ( (float) startDay - 1)) / 7);
+
 	 
 	    model.setRowCount(0);
-	    model.setRowCount(weeks+1);
+	    model.setRowCount(weeks);
 	 
 	    int i = startDay-1;
 	    for(int day=1;day<=numberOfDays;day++){
