@@ -25,6 +25,7 @@ public class AddNewEventWindow extends JDialog {
 	
 	public AddNewEventWindow(LogicLayer ll, Calendar cal) {
 		setBounds(100, 100, 450, 300);
+		this.setTitle("Add Event");
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);

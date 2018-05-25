@@ -17,6 +17,8 @@ import java.util.Locale;
 import javax.swing.JSplitPane;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import java.awt.event.ActionListener;
@@ -28,6 +30,7 @@ import java.awt.Font;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.JMenuBar;
 
 @SuppressWarnings("serial")
 public class UserInterface extends JFrame {
@@ -39,10 +42,36 @@ public class UserInterface extends JFrame {
 	Calendar temp = Calendar.getInstance();
 	Calendar cal = new GregorianCalendar();
 
-	public UserInterface(LogicLayer ll) {		
+	public UserInterface(LogicLayer ll) {
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (ClassNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (InstantiationException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IllegalAccessException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (UnsupportedLookAndFeelException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setTitle("Calendar");
-		setBounds(100, 100, 661, 313);
+		setBounds(100, 100, 864, 316);
+		
+		JMenuBar menuBar = new JMenuBar();
+		setJMenuBar(menuBar);
+		
+		JButton btnAbout = new JButton("About");
+		btnAbout.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new AboutWindow();
+			}
+		});
+		menuBar.add(btnAbout);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -82,7 +111,7 @@ public class UserInterface extends JFrame {
 		panel_1.add(label);
 		label.setHorizontalAlignment(SwingConstants.CENTER);
 				
-		String [] columns = {"Mon","Tue","Wed","Thu","Fri","Sat", "Sun"};
+		String [] columns = {"Sun", "Mon","Tue","Wed","Thu","Fri","Sat"};
 	    model = new DefaultTableModel(null,columns);
 	    JTable table = new JTable(model);
 	    table.addMouseListener(new MouseAdapter() {
@@ -124,19 +153,14 @@ public class UserInterface extends JFrame {
 		JButton btnSaveToXml = new JButton("Save to XML");
 		btnSaveToXml.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				XMLSerializer.save("Calendar.xml", ll.getDataService());
+				new SaveToXmlWindow(ll.getDataService());
 			}
 		});
 		
 		JButton btnLoadFromXml = new JButton("Load from XML");
 		btnLoadFromXml.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				try {
-					ll.loadDataService(XMLSerializer.importData("Calendar.xml"));
-				} catch (LogicLayerException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				new LoadFromXmlWindow(ll);
 			}
 		});
 		GroupLayout gl_panel_3 = new GroupLayout(panel_3);
