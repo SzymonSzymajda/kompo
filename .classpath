@@ -6,5 +6,7 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="E:/Studia/kompo/Shortsight/lib/xstream-1.4.10.jar"/>
+	<classpathentry kind="lib" path="E:/Studia/kompo/Shortsight/lib/mssql-jdbc-6.4.0.jre9.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
