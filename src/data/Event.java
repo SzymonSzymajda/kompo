@@ -21,6 +21,10 @@ public class Event {
 	public Date getEventDate() {
 		return EventDate.getTime();
 	}
+	
+	public Calendar getEventDateCal() {
+		return EventDate;
+	}
 
 	public void setEventDate(int year, int month, int day) {
 		EventDate.set(year, month, day);

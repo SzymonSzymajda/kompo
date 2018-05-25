@@ -1,5 +1,7 @@
 package logic;
 
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.TreeMap;
 
 import data.DataService;
@@ -91,6 +93,18 @@ public class LogicLayer {
 		
 		public TreeMap<Integer, Event> getAllEvents(){
 			return Data.getAllEvents();
+		}
+		
+		public ArrayList<Event> getAllEventsFrom(Calendar date){
+			ArrayList<Event> ret = new ArrayList<Event>();
+			for(Event e : this.getAllEvents().values()) {
+				if(		   e.getEventDateCal().get(Calendar.YEAR) == date.get(Calendar.YEAR)
+						&& e.getEventDateCal().get(Calendar.MONTH) == date.get(Calendar.MONTH)
+						&& e.getEventDateCal().get(Calendar.DATE) == date.get(Calendar.DATE)) {
+					ret.add(e);
+				}
+			}
+			return ret;
 		}
 		
 		public void addPeopleToEvent(int id, Person...persons) throws LogicLayerException {

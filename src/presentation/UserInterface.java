@@ -1,4 +1,5 @@
 package presentation;
+import logic.*;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -8,11 +9,16 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+
+import data.Event;
+
 import javax.swing.JMenuBar;
 import java.awt.GridLayout;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Locale;
+import java.util.TreeMap;
 import java.awt.GridBagLayout;
 import javax.swing.JSplitPane;
 import javax.swing.JComboBox;
@@ -34,28 +40,23 @@ public class UserInterface extends JFrame {
 	DefaultTableModel model;
 	JLabel label;
 	JTextArea textField;
+	Calendar temp = Calendar.getInstance();
 	Calendar cal = new GregorianCalendar();
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					UserInterface frame = new UserInterface();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+		UserInterface frame = new UserInterface();
 	}
 
 	/**
 	 * Create the frame.
 	 */
 	public UserInterface() {
+		
+		LogicLayer ll = new LogicLayer();
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setTitle("Calendar");
 		setBounds(100, 100, 661, 313);
@@ -112,20 +113,46 @@ public class UserInterface extends JFrame {
 	            int col = table.columnAtPoint(e.getPoint());
 	            if (row >= 0 && col >= 0) {
 	                int day = (int)table.getModel().getValueAt(row, col);
-	                textField.setText("Month: " + cal.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.US) + "\nDay: " + day);
+	                temp.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), day);
+	                ArrayList<Event> events = ll.getAllEventsFrom(temp);
+	                if(events.size()==0) {
+	                	textField.setText("Month: " + cal.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.US) + "\nDay: " + day);
+	                }
+	                else {
+		                String description = "";
+	                	for(Event event : events) {
+		                	description += event.toString() + "\n";
+		                }
+		                textField.setText(description);	  
+	                }
+	                              
 	            }
 	    	}
 	    });
 	    JScrollPane panel_2 = new JScrollPane(table);
 		panel.add(panel_2, BorderLayout.CENTER);
 		
+		JPanel panel_3 = new JPanel();
+		panel.add(panel_3, BorderLayout.SOUTH);
+		panel_3.setLayout(new BorderLayout(0, 0));
+		
+		JButton btnNewButton = new JButton("Add Event");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new AddNewEventWindow(ll, temp); 
+			}
+		});
+		panel_3.add(btnNewButton, BorderLayout.EAST);
+		
 		textField = new JTextArea();
 		splitPane.setRightComponent(textField);
-		textField.setFont(new Font("Monospaced", Font.PLAIN, 23));
+		textField.setFont(new Font("Monospaced", Font.PLAIN, 14));
 		textField.setEnabled(false);
 		textField.setText("Month: " + "\nDay: ");
 		
 		this.updateMonth();
+		
+		this.setVisible(true);
 	}
 	
 	void updateMonth() {
@@ -140,7 +167,7 @@ public class UserInterface extends JFrame {
 	    int weeks = cal.getActualMaximum(Calendar.WEEK_OF_MONTH);
 	 
 	    model.setRowCount(0);
-	    model.setRowCount(weeks);
+	    model.setRowCount(weeks+1);
 	 
 	    int i = startDay-1;
 	    for(int day=1;day<=numberOfDays;day++){
