@@ -10,7 +10,6 @@ import javax.swing.table.DefaultTableModel;
 
 import data.Event;
 
-import javax.swing.JMenuBar;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -26,6 +25,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JTextArea;
 import java.awt.Font;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.LayoutStyle.ComponentPlacement;
 
 @SuppressWarnings("serial")
 public class UserInterface extends JFrame {
@@ -37,18 +39,10 @@ public class UserInterface extends JFrame {
 	Calendar temp = Calendar.getInstance();
 	Calendar cal = new GregorianCalendar();
 
-	public UserInterface() {		
-		
-	}
-	
-	public void run(LogicLayer ll) {
+	public UserInterface(LogicLayer ll) {		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setTitle("Calendar");
 		setBounds(100, 100, 661, 313);
-		
-		
-		JMenuBar menuBar = new JMenuBar();
-		setJMenuBar(menuBar);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -119,15 +113,53 @@ public class UserInterface extends JFrame {
 		
 		JPanel panel_3 = new JPanel();
 		panel.add(panel_3, BorderLayout.SOUTH);
-		panel_3.setLayout(new BorderLayout(0, 0));
 		
-		JButton btnNewButton = new JButton("Add Event");
-		btnNewButton.addActionListener(new ActionListener() {
+		JButton btnAddEvent = new JButton("Add Event");
+		btnAddEvent.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new AddNewEventWindow(ll, temp); 
 			}
 		});
-		panel_3.add(btnNewButton, BorderLayout.EAST);
+		
+		JButton btnSaveToXml = new JButton("Save to XML");
+		btnSaveToXml.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				XMLSerializer.save("Calendar.xml", ll.getDataService());
+			}
+		});
+		
+		JButton btnLoadFromXml = new JButton("Load from XML");
+		btnLoadFromXml.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					ll.loadDataService(XMLSerializer.importData("Calendar.xml"));
+				} catch (LogicLayerException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		GroupLayout gl_panel_3 = new GroupLayout(panel_3);
+		gl_panel_3.setHorizontalGroup(
+			gl_panel_3.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_3.createSequentialGroup()
+					.addComponent(btnSaveToXml)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(btnLoadFromXml)
+					.addGap(183)
+					.addComponent(btnAddEvent))
+		);
+		gl_panel_3.setVerticalGroup(
+			gl_panel_3.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_3.createSequentialGroup()
+					.addGroup(gl_panel_3.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panel_3.createParallelGroup(Alignment.BASELINE)
+							.addComponent(btnSaveToXml)
+							.addComponent(btnLoadFromXml))
+						.addComponent(btnAddEvent))
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+		);
+		panel_3.setLayout(gl_panel_3);
 		
 		textField = new JTextArea();
 		splitPane.setRightComponent(textField);
