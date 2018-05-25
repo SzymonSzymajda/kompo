@@ -2,8 +2,6 @@ package presentation;
 import logic.*;
 
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -13,15 +11,11 @@ import javax.swing.table.DefaultTableModel;
 import data.Event;
 
 import javax.swing.JMenuBar;
-import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Locale;
-import java.util.TreeMap;
-import java.awt.GridBagLayout;
 import javax.swing.JSplitPane;
-import javax.swing.JComboBox;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
 import javax.swing.JLabel;
@@ -33,30 +27,21 @@ import java.awt.event.MouseEvent;
 import javax.swing.JTextArea;
 import java.awt.Font;
 
+@SuppressWarnings("serial")
 public class UserInterface extends JFrame {
 
 	private JPanel contentPane;
-	private JTable table;
 	DefaultTableModel model;
 	JLabel label;
 	JTextArea textField;
 	Calendar temp = Calendar.getInstance();
 	Calendar cal = new GregorianCalendar();
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		UserInterface frame = new UserInterface();
+	public UserInterface() {		
+		
 	}
-
-	/**
-	 * Create the frame.
-	 */
-	public UserInterface() {
-		
-		LogicLayer ll = new LogicLayer();
-		
+	
+	public void run(LogicLayer ll) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setTitle("Calendar");
 		setBounds(100, 100, 661, 313);

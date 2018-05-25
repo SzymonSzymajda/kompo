@@ -9,18 +9,14 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import data.Event;
-
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
 import java.awt.Font;
-import javax.swing.JTextField;
 import java.awt.event.ActionListener;
 import java.util.Calendar;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextArea;
 
+@SuppressWarnings("serial")
 public class AddNewEventWindow extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();

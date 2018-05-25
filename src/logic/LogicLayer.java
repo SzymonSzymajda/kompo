@@ -114,6 +114,15 @@ public class LogicLayer {
 				throw new LogicLayerException("Given ID is not mapped");
 			}
 		}
+		
+		//do serializacji
+		public void loadDataService(DataService data) {
+			this.Data = data;
+		}
+		
+		public DataService getDataService() {
+			return this.Data;
+		}
 	
 
 }

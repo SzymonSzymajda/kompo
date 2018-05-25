@@ -1,27 +1,32 @@
 package presentation;
 
-import java.io.FileWriter;
-import java.io.IOException;
-
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.io.xml.StaxDriver;
-
-import data.Event;
+import logic.LogicLayer;
+import logic.LogicLayerException;
+import logic.XMLImporter;
+import logic.XMLSaver;
+import presentation.UserInterface;
 
 public class Program {
 
-	public static void main(String[] args) {
-		Event ev = new Event(1, 1, 1, "ruchane");
-		
-		XStream xstream = new XStream(new StaxDriver());
-		
+	public static void main2(String[] args) {
+		LogicLayer ll = new LogicLayer();
 		try {
-			xstream.toXML(ev,new FileWriter("aaaaaa.xml"));
-		} catch (IOException e) {
+			ll.loadDataService(XMLImporter.importData("test.xml"));
+		} catch (LogicLayerException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-
+		UserInterface gui = new UserInterface();
+		gui.run(ll);
+	}
+	public static void main(String[] args) {
+		LogicLayer ll = new LogicLayer();
+		UserInterface gui = new UserInterface();
+		gui.run(ll);
+		for(data.Event ev : ll.getAllEvents().values()) {
+			System.out.println(ev.toString());
+		}
+		XMLSaver.save("test.xml", ll.getDataService());
 	}
 
 }

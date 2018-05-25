@@ -10,7 +10,7 @@ import data.DataService;
 
 public class XMLImporter {
 
-	public DataService importData(String fileName) throws LogicLayerException {
+	public static DataService importData(String fileName) throws LogicLayerException {
 		XStream xstream = new XStream(new StaxDriver());
 		FileInputStream fileIn = null;
 		try {
