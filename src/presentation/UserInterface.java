@@ -25,6 +25,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
 import javax.swing.JTextArea;
 import java.awt.Font;
 import javax.swing.GroupLayout;
@@ -43,6 +46,13 @@ public class UserInterface extends JFrame {
 	Calendar cal = new GregorianCalendar();
 
 	public UserInterface(LogicLayer ll) {
+		
+		try {
+			ll.loadDataService(XMLSerializer.importData("autosave.xml"));
+		} catch (LogicLayerException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (ClassNotFoundException e1) {
@@ -62,8 +72,26 @@ public class UserInterface extends JFrame {
 		this.setTitle("Calendar");
 		setBounds(100, 100, 864, 316);
 		
+		addWindowListener(new WindowAdapter()
+        {
+            @Override
+            public void windowClosing(WindowEvent e)
+            {
+                XMLSerializer.save("autosave.xml", ll.getDataService());
+                e.getWindow().dispose();
+            }
+        });
+		
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
+		
+		JButton btnSettings = new JButton("Settings");
+		btnSettings.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new SettingsWindow();
+			}
+		});
+		menuBar.add(btnSettings);
 		
 		JButton btnAbout = new JButton("About");
 		btnAbout.addActionListener(new ActionListener() {
@@ -128,8 +156,9 @@ public class UserInterface extends JFrame {
 	                }
 	                else {
 		                String description = "";
+		                int number = 0;
 	                	for(Event event : events) {
-		                	description += event.toString() + "\n";
+		                	description += "#" + (++number) + "\n" + event.toString() + "\n";
 		                }
 		                textField.setText(description);	  
 	                }
@@ -163,6 +192,13 @@ public class UserInterface extends JFrame {
 				new LoadFromXmlWindow(ll);
 			}
 		});
+		
+		JButton btnDeleteEvent = new JButton("Delete Event");
+		btnDeleteEvent.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+                new DeleteEventWindow(ll, temp);
+			}
+		});
 		GroupLayout gl_panel_3 = new GroupLayout(panel_3);
 		gl_panel_3.setHorizontalGroup(
 			gl_panel_3.createParallelGroup(Alignment.LEADING)
@@ -170,7 +206,9 @@ public class UserInterface extends JFrame {
 					.addComponent(btnSaveToXml)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(btnLoadFromXml)
-					.addGap(183)
+					.addGap(92)
+					.addComponent(btnDeleteEvent)
+					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(btnAddEvent))
 		);
 		gl_panel_3.setVerticalGroup(
@@ -180,13 +218,18 @@ public class UserInterface extends JFrame {
 						.addGroup(gl_panel_3.createParallelGroup(Alignment.BASELINE)
 							.addComponent(btnSaveToXml)
 							.addComponent(btnLoadFromXml))
-						.addComponent(btnAddEvent))
+						.addGroup(gl_panel_3.createParallelGroup(Alignment.BASELINE)
+							.addComponent(btnAddEvent)
+							.addComponent(btnDeleteEvent)))
 					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
 		panel_3.setLayout(gl_panel_3);
 		
+		JScrollPane scrollPane = new JScrollPane();
+		splitPane.setRightComponent(scrollPane);
+		
 		textField = new JTextArea();
-		splitPane.setRightComponent(textField);
+		scrollPane.setViewportView(textField);
 		textField.setFont(new Font("Monospaced", Font.PLAIN, 14));
 		textField.setEnabled(false);
 		textField.setText("Month: " + "\nDay: ");
