@@ -174,14 +174,22 @@ public class UserInterface extends JFrame {
 		label.setHorizontalAlignment(SwingConstants.CENTER);
 				
 		String [] columns = {"Sun", "Mon","Tue","Wed","Thu","Fri","Sat"};
-	    model = new DefaultTableModel(null,columns);
+	    model = new DefaultTableModel(null,columns) {
+	    	@Override
+	    	public boolean isCellEditable(int row, int column) {
+	    		return false;
+	    	}
+	    };
 	    JTable table = new JTable(model);
 	    table.addMouseListener(new MouseAdapter() {
 	    	@Override
 	    	public void mouseClicked(MouseEvent e) {
-	    	
 	    		int row = table.rowAtPoint(e.getPoint());
 	            int col = table.columnAtPoint(e.getPoint());
+	            
+	            if(table.getModel().getValueAt(row, col) == null)
+	            	return;
+	            	
 	            if (row >= 0 && col >= 0) {
 	                int day = (int)table.getModel().getValueAt(row, col);
 	                temp.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), day);
