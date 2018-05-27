@@ -9,6 +9,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import data.Event;
+import data.Person;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -39,11 +40,12 @@ import javax.swing.JMenuBar;
 public class UserInterface extends JFrame {
 
 	private JPanel contentPane;
-	DefaultTableModel model;
-	JLabel label;
-	JTextArea textField;
-	Calendar temp = Calendar.getInstance();
-	Calendar cal = new GregorianCalendar();
+	private DefaultTableModel model;
+	private JLabel label;
+	private JTextArea textField;
+	private Calendar temp = Calendar.getInstance();
+	private Calendar cal = new GregorianCalendar();
+	private Person currentPerson;
 
 	public UserInterface(LogicLayer ll) {
 		
@@ -88,7 +90,7 @@ public class UserInterface extends JFrame {
 		JButton btnSettings = new JButton("Settings");
 		btnSettings.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new SettingsWindow();
+				new SettingsWindow(ll, currentPerson);
 			}
 		});
 		menuBar.add(btnSettings);
