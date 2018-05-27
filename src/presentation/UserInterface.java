@@ -34,6 +34,11 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JMenuBar;
+import javax.swing.JList;
+import javax.swing.JComboBox;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import java.awt.Component;
 
 @SuppressWarnings("serial")
 public class UserInterface extends JFrame {
@@ -85,21 +90,48 @@ public class UserInterface extends JFrame {
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 		
-		JButton btnSettings = new JButton("Settings");
-		btnSettings.addActionListener(new ActionListener() {
+		JMenu mnMore = new JMenu("More");
+		mnMore.setAlignmentX(Component.LEFT_ALIGNMENT);
+		menuBar.add(mnMore);
+		
+		JMenuItem mntmSettings = new JMenuItem("Settings");
+		mnMore.add(mntmSettings);
+		mntmSettings.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new SettingsWindow();
 			}
 		});
-		menuBar.add(btnSettings);
 		
-		JButton btnAbout = new JButton("About");
-		btnAbout.addActionListener(new ActionListener() {
+		JMenuItem mntmAbout = new JMenuItem("About");
+		mnMore.add(mntmAbout);
+		mntmAbout.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new AboutWindow();
 			}
 		});
-		menuBar.add(btnAbout);
+		
+		JMenu mnSave = new JMenu("Save");
+		mnMore.add(mnSave);
+		
+		JMenuItem mntmSaveToXml = new JMenuItem("Save to XML");
+		mnSave.add(mntmSaveToXml);
+		mntmSaveToXml.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new SaveToXmlWindow(ll.getDataService());
+			}
+		});
+		
+		JMenu mnLoad = new JMenu("Load");
+		mnMore.add(mnLoad);
+		
+		JMenuItem mntmLoadFromXml = new JMenuItem("Load from XML");
+		mnLoad.add(mntmLoadFromXml);
+		mntmLoadFromXml.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new LoadFromXmlWindow(ll);
+			}
+		});
+
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -145,6 +177,7 @@ public class UserInterface extends JFrame {
 	    table.addMouseListener(new MouseAdapter() {
 	    	@Override
 	    	public void mouseClicked(MouseEvent e) {
+	    	
 	    		int row = table.rowAtPoint(e.getPoint());
 	            int col = table.columnAtPoint(e.getPoint());
 	            if (row >= 0 && col >= 0) {
@@ -179,20 +212,6 @@ public class UserInterface extends JFrame {
 			}
 		});
 		
-		JButton btnSaveToXml = new JButton("Save to XML");
-		btnSaveToXml.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				new SaveToXmlWindow(ll.getDataService());
-			}
-		});
-		
-		JButton btnLoadFromXml = new JButton("Load from XML");
-		btnLoadFromXml.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				new LoadFromXmlWindow(ll);
-			}
-		});
-		
 		JButton btnDeleteEvent = new JButton("Delete Event");
 		btnDeleteEvent.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -202,26 +221,18 @@ public class UserInterface extends JFrame {
 		GroupLayout gl_panel_3 = new GroupLayout(panel_3);
 		gl_panel_3.setHorizontalGroup(
 			gl_panel_3.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel_3.createSequentialGroup()
-					.addComponent(btnSaveToXml)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(btnLoadFromXml)
-					.addGap(92)
-					.addComponent(btnDeleteEvent)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(btnAddEvent))
+				.addGroup(Alignment.TRAILING, gl_panel_3.createSequentialGroup()
+					.addComponent(btnAddEvent)
+					.addPreferredGap(ComponentPlacement.RELATED, 294, Short.MAX_VALUE)
+					.addComponent(btnDeleteEvent))
 		);
 		gl_panel_3.setVerticalGroup(
 			gl_panel_3.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel_3.createSequentialGroup()
-					.addGroup(gl_panel_3.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_panel_3.createParallelGroup(Alignment.BASELINE)
-							.addComponent(btnSaveToXml)
-							.addComponent(btnLoadFromXml))
-						.addGroup(gl_panel_3.createParallelGroup(Alignment.BASELINE)
-							.addComponent(btnAddEvent)
-							.addComponent(btnDeleteEvent)))
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+				.addGroup(Alignment.TRAILING, gl_panel_3.createSequentialGroup()
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addGroup(gl_panel_3.createParallelGroup(Alignment.BASELINE)
+						.addComponent(btnDeleteEvent)
+						.addComponent(btnAddEvent)))
 		);
 		panel_3.setLayout(gl_panel_3);
 		
