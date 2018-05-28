@@ -55,8 +55,8 @@ public class LogicLayer {
 		}
 		
 	//CRUD Event
-		public void createEvent(String description, int year, int month, int day) {
-			Data.createEvent(new Event(year, month, day, description));
+		public void createEvent(String description, int year, int month, int day, int hour, int minutes) {
+			Data.createEvent(new Event(year, month, day, hour, minutes, description));
 		}
 		
 		public Event getEvent(int id) throws LogicLayerException {
@@ -105,14 +105,6 @@ public class LogicLayer {
 				}
 			}
 			return ret;
-		}
-		
-		public void addPeopleToEvent(int id, Person...persons) throws LogicLayerException {
-			try {
-				Data.addPeopleToEvent(id, persons);
-			} catch (DataServiceException e) {
-				throw new LogicLayerException("Given ID is not mapped");
-			}
 		}
 		
 		//do serializacji

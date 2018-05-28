@@ -1,20 +1,24 @@
 package data;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashSet;
 
-public class Event {
+public class Event implements Serializable{
 	
+	private static final long serialVersionUID = 1L;
 	private String Description;
-	private HashSet<Person> ConnectedPeople = new HashSet<Person>();
 	private Calendar EventDate;
 	
-	public Event(int year, int month, int day, String description) {
+	public Event() {}
+	
+	public Event(int year, int month, int day, int hour, int minutes, String description) {
 		super();
-		EventDate = Calendar.getInstance();
-		EventDate.set(year, month, day);
+		EventDate = GregorianCalendar.getInstance();
+		EventDate.set(year, month, day, hour, minutes);
 		Description = description;
 	}
 
@@ -38,21 +42,13 @@ public class Event {
 		Description = description;
 	}
 
-	public HashSet<Person> getConnectedPeople() {
-		return ConnectedPeople;
-	}
-
-	public void addConnectedPerson(Person person) {
-		ConnectedPeople.add(person);
-	}
 
 	@Override
 	public String toString() {
 		SimpleDateFormat ft = new SimpleDateFormat("EEEE, d MMMM y 'o' H:m");
-		String ret = "Date: " + ft.format(EventDate.getTime()) + "\nDescription: " + Description + "\nWith:\n";
-		for(Person person: ConnectedPeople) {
-			ret += "   *" + person.toString() + "\n";
-		}
+
+		String ret = "";
+		ret = "Date: " + ft.format(EventDate.getTime()) + "\nDescription: " + Description;
 		return ret;
 	}	
 }

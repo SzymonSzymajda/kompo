@@ -17,6 +17,7 @@ import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Component;
 
 @SuppressWarnings("serial")
 public class LoadFromXmlWindow extends JDialog {
@@ -25,7 +26,7 @@ public class LoadFromXmlWindow extends JDialog {
 	private JTextField textField;
 
 	public LoadFromXmlWindow(LogicLayer ll) {
-		setBounds(100, 100, 202, 120);
+		setBounds(100, 100, 211, 132);
 		getContentPane().setLayout(new BorderLayout());
 		setTitle("Load from XML");
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -33,13 +34,14 @@ public class LoadFromXmlWindow extends JDialog {
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		
 		JButton btnSave = new JButton("Load");
+		btnSave.setAlignmentX(Component.CENTER_ALIGNMENT);
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String filename = textField.getText();
 				try {
 					ll.loadDataService(XMLSerializer.importData(filename + ".xml"));
 				} catch (LogicLayerException e1) {
-					e1.printStackTrace();
+					new ErrorWindow(e1);
 				}
 				dispose();
 			}
@@ -54,19 +56,17 @@ public class LoadFromXmlWindow extends JDialog {
 			gl_contentPanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPanel.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(lblFileName, GroupLayout.PREFERRED_SIZE, 65, GroupLayout.PREFERRED_SIZE)
-					.addGap(4)
+					.addComponent(lblFileName)
+					.addGap(20)
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
 						.addComponent(btnSave)
-						.addGroup(gl_contentPanel.createSequentialGroup()
-							.addGap(3)
-							.addComponent(textField, GroupLayout.PREFERRED_SIZE, 69, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap(27, Short.MAX_VALUE))
+						.addComponent(textField, GroupLayout.PREFERRED_SIZE, 69, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(42, Short.MAX_VALUE))
 		);
 		gl_contentPanel.setVerticalGroup(
 			gl_contentPanel.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_contentPanel.createSequentialGroup()
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addContainerGap(98, Short.MAX_VALUE)
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblFileName)
 						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))

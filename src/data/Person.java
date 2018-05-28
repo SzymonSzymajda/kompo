@@ -4,6 +4,8 @@ public class Person {
 	private String Name;
 	private String Surname;
 	
+	public Person() {};
+	
 	public Person(String name, String surname) {
 		super();
 		Name = name;

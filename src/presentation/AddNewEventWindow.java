@@ -15,18 +15,77 @@ import java.awt.event.ActionListener;
 import java.util.Calendar;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextArea;
+import javax.swing.SwingConstants;
+import javax.swing.JTextField;
+import javax.swing.JTextPane;
+import javax.swing.JComboBox;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
+import java.awt.Component;
 
 @SuppressWarnings("serial")
 public class AddNewEventWindow extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	JTextArea textArea;
+	private JComboBox hourBox;
+	private JComboBox minuteBox;
 
 	
 	public AddNewEventWindow(LogicLayer ll, Calendar cal) {
 		setBounds(100, 100, 450, 300);
 		this.setTitle("Add Event");
 		getContentPane().setLayout(new BorderLayout());
+		{
+			JPanel panel = new JPanel();
+			getContentPane().add(panel, BorderLayout.NORTH);
+			GridBagLayout gbl_panel = new GridBagLayout();
+			gbl_panel.columnWidths = new int[]{106, 32, 72, 60, 0};
+			gbl_panel.rowHeights = new int[]{25, 0};
+			gbl_panel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+			gbl_panel.rowWeights = new double[]{0.0, Double.MIN_VALUE};
+			panel.setLayout(gbl_panel);
+			{
+				JLabel label = new JLabel("Event time:");
+				label.setFont(new Font("Tahoma", Font.PLAIN, 20));
+				label.setEnabled(false);
+				GridBagConstraints gbc_label = new GridBagConstraints();
+				gbc_label.gridwidth = 2;
+				gbc_label.anchor = GridBagConstraints.NORTHWEST;
+				gbc_label.insets = new Insets(0, 0, 0, 5);
+				gbc_label.gridx = 0;
+				gbc_label.gridy = 0;
+				panel.add(label, gbc_label);
+			}
+			{
+				String[] hour = new String[24];
+				for(int i=0; i<24; i++) {
+					hour[i]=Integer.toString(i);
+				}
+				
+				hourBox = new JComboBox(hour);
+				GridBagConstraints gbc_hourBox = new GridBagConstraints();
+				gbc_hourBox.fill = GridBagConstraints.HORIZONTAL;
+				gbc_hourBox.insets = new Insets(0, 0, 0, 5);
+				gbc_hourBox.gridx = 2;
+				gbc_hourBox.gridy = 0;
+				panel.add(hourBox, gbc_hourBox);
+			}
+			{
+				String[] minute = new String[60];
+				for(int i=0; i<60; i++) {
+					minute[i]=Integer.toString(i);
+				}
+				
+				minuteBox = new JComboBox(minute);
+				GridBagConstraints gbc_minuteBox = new GridBagConstraints();
+				gbc_minuteBox.fill = GridBagConstraints.HORIZONTAL;
+				gbc_minuteBox.gridx = 3;
+				gbc_minuteBox.gridy = 0;
+				panel.add(minuteBox, gbc_minuteBox);
+			}
+		}
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(new BorderLayout(0, 0));
@@ -48,7 +107,9 @@ public class AddNewEventWindow extends JDialog {
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						String description = textArea.getText();
-						ll.createEvent(description, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DATE));
+						int hour = hourBox.getSelectedIndex();
+						int minutes = minuteBox.getSelectedIndex();
+						ll.createEvent(description, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DATE), hour, minutes);
 						dispose();
 					}
 				});

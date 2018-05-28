@@ -90,10 +90,4 @@ public class DataService {
 	public TreeMap<Integer, Event> getAllEvents(){
 		return Data.Events;
 	}
-	
-	public void addPeopleToEvent(int eventId, Person...persons) throws DataServiceException {
-		for(Person p: persons) {
-			this.getEvent(eventId).addConnectedPerson(p);
-		}
-	}
 }

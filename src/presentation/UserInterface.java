@@ -58,7 +58,7 @@ public class UserInterface extends JFrame {
 			ll.loadDataService(XMLSerializer.importData("autosave.xml"));
 		} catch (LogicLayerException e2) {
 			// TODO Auto-generated catch block
-			e2.printStackTrace();
+			new ErrorWindow(e2);
 		}
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());

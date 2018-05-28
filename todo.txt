@@ -1,3 +1,2 @@
 look and feel w opcjach
 baza danych
-ustawienie godziny w wydarzeniu
