@@ -115,16 +115,7 @@ public class AddNewEventWindow extends JDialog {
 						int minutes = minuteBox.getSelectedIndex();
 						Event ev = new Event(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DATE), hour, minutes, description);
 						ll.createEvent(ev);						
-						ArrayList<Event> events = ll.getAllEventsFrom(cal);
-						
-						String desc = "Month: " + cal.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.US) + "\nDay: " + cal.get(Calendar.DATE) + "\n";
-		                int number = 0;
-	                	for(Event event : events) {
-		                	desc += "#" + (++number) + "\n" + event.toString() + "\n";
-		                }
-		                textField.setText(desc);	  
-	                
-						
+		                textField.setText(ll.getDayDescription(cal));
 						dispose();
 					}
 				});

@@ -193,13 +193,7 @@ public class UserInterface extends JFrame {
 	            if (row >= 0 && col >= 0) {
 	                int day = (int)table.getModel().getValueAt(row, col);
 	                temp.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), day);
-	                ArrayList<Event> events = ll.getAllEventsFrom(temp);
-	                String desc = "Month: " + cal.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.US) + "\nDay: " + day + "\n";
-	                int number = 0;
-                	for(Event event : events) {
-	                	desc += "#" + (++number) + "\n" + event.toString() + "\n";
-	                }
-	                textField.setText(desc);	
+	                textField.setText(ll.getDayDescription(temp));	
 	                              
 	            }
 	    	}
