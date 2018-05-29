@@ -112,6 +112,7 @@ public class AddNewEventWindow extends JDialog {
 						int minutes = minuteBox.getSelectedIndex();
 						Event ev = new Event(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DATE), hour, minutes, description, Person.currentPerson);
 						ll.createEvent(ev);						
+<<<<<<< HEAD
 						ArrayList<Event> events = ll.getAllEventsFrom(cal);
 						
 						String desc = "Month: " + cal.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.US) + "\nDay: " + cal.get(Calendar.DATE) + "\n";
@@ -122,6 +123,9 @@ public class AddNewEventWindow extends JDialog {
 	                		}		                	
 		                }
 		                textField.setText(desc);						
+=======
+		                textField.setText(ll.getDayDescription(cal));
+>>>>>>> 5a4a6c5f3bbdfc72b73b3f8306c1ae04b866f9d5
 						dispose();
 					}
 				});

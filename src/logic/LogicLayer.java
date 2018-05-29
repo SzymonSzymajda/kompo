@@ -2,6 +2,7 @@ package logic;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Locale;
 import java.util.TreeMap;
 
 import data.DataService;
@@ -119,6 +120,19 @@ public class LogicLayer {
 		
 		public DataService getDataService() {
 			return this.Data;
+		}
+		
+		public String getDayDescription(Calendar day) {
+			ArrayList<Event> events = getAllEventsFrom(day);
+			
+			String desc = "Month: " + day.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.US) + "\nDay: " + day.get(Calendar.DATE) + "\n";
+            int number = 0;
+        	for(Event event : events) {
+            	desc += "#" + (++number) + "\n" + event.toString() + "\n";
+            }
+        	
+        	return desc;
+			
 		}
 	
 
