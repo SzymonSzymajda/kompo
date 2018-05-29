@@ -57,22 +57,17 @@ public class UserInterface extends JFrame {
 		try {
 			ll.loadDataService(XMLSerializer.importData("autosave.xml"));
 		} catch (LogicLayerException e2) {
-			// TODO Auto-generated catch block
 			new ErrorWindow(e2);
 		}
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch (InstantiationException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch (IllegalAccessException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch (UnsupportedLookAndFeelException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -197,7 +192,9 @@ public class UserInterface extends JFrame {
 	                String desc = "Month: " + cal.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.US) + "\nDay: " + day + "\n";
 	                int number = 0;
                 	for(Event event : events) {
-	                	desc += "#" + (++number) + "\n" + event.toString() + "\n";
+                		if(event.getOwner().equals(Person.currentPerson)) {
+                			desc += "#" + (++number) + "\n" + event.toString() + "\n";
+                		}	                	
 	                }
 	                textField.setText(desc);	
 	                              
@@ -213,7 +210,7 @@ public class UserInterface extends JFrame {
 		JButton btnAddEvent = new JButton("Add Event");
 		btnAddEvent.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new AddNewEventWindow(ll, temp, textField);
+				new AddNewEventWindow(ll, temp, textField, currentPerson);
 			}
 		});
 		
@@ -253,6 +250,7 @@ public class UserInterface extends JFrame {
 		this.updateMonth();
 		
 		this.setVisible(true);
+		new SettingsWindow(ll, currentPerson);
 	}
 	
 	void updateMonth() {

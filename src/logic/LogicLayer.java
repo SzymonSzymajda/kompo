@@ -18,45 +18,46 @@ public class LogicLayer {
 			Data.createPerson(new Person(name, surname));
 		}
 		
-		public Person getPerson(int id) throws LogicLayerException{
+		public Person getPerson(String name, String surname) throws LogicLayerException{
 			try {
-				return Data.getPerson(id);
+				return Data.getPerson(name, surname);
 			} catch (DataServiceException e) {
-				throw new LogicLayerException("Given ID is not mapped");
+				throw new LogicLayerException("Specified person does not exist");
 			}
 		}
-		
+		/*
 		public void updatePerson(int id, Person p) throws LogicLayerException {
 			try {
 				Data.updatePerson(id, p);
 			} catch (DataServiceException e) {
-				throw new LogicLayerException("Given ID is not mapped");
+				throw new LogicLayerException("Specified person does not exist");
 			}		
 		}
-		
-		public void deletePerson(int id) throws LogicLayerException {
+		*/
+		public void deletePerson(String name, String surname) throws LogicLayerException {
 			try {
-				Data.deletePerson(id);
+				Data.deletePerson(name, surname);
 			} catch (DataServiceException e) {
-				throw new LogicLayerException("Given ID is not mapped");
+				throw new LogicLayerException("Specified person does not exist");
 			}
 		}
 		
 		public void deletePerson(Person p) throws LogicLayerException {
 			try {
+				
 				Data.deletePerson(p);
 			} catch (DataServiceException e) {
-				throw new LogicLayerException("Given ID is not mapped");
+				throw new LogicLayerException("Specified person does not exist");
 			}
 		}
 		
-		public TreeMap<Integer, Person> getAllPeople(){
+		public ArrayList<Person> getAllPeople(){
 			return Data.getAllPeople();
 		}
 		
 	//CRUD Event
-		public void createEvent(String description, int year, int month, int day, int hour, int minutes) {
-			Data.createEvent(new Event(year, month, day, hour, minutes, description));
+		public void createEvent(int year, int month, int day, int hour, int minutes, String description, Person owner) {
+			Data.createEvent(new Event(year, month, day, hour, minutes, description, owner));
 		}
 		
 		public void createEvent(Event e){
