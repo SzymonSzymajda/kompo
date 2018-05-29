@@ -59,6 +59,10 @@ public class LogicLayer {
 			Data.createEvent(new Event(year, month, day, hour, minutes, description));
 		}
 		
+		public void createEvent(Event e){
+			Data.createEvent(e);
+		}
+		
 		public Event getEvent(int id) throws LogicLayerException {
 			try {
 				return Data.getEvent(id);

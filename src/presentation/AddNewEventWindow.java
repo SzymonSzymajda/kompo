@@ -9,10 +9,14 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import data.Event;
+
 import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Locale;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
@@ -33,7 +37,7 @@ public class AddNewEventWindow extends JDialog {
 	private JComboBox minuteBox;
 
 	
-	public AddNewEventWindow(LogicLayer ll, Calendar cal) {
+	public AddNewEventWindow(LogicLayer ll, Calendar cal, JTextArea textField) {
 		setBounds(100, 100, 450, 300);
 		this.setTitle("Add Event");
 		getContentPane().setLayout(new BorderLayout());
@@ -109,7 +113,18 @@ public class AddNewEventWindow extends JDialog {
 						String description = textArea.getText();
 						int hour = hourBox.getSelectedIndex();
 						int minutes = minuteBox.getSelectedIndex();
-						ll.createEvent(description, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DATE), hour, minutes);
+						Event ev = new Event(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DATE), hour, minutes, description);
+						ll.createEvent(ev);						
+						ArrayList<Event> events = ll.getAllEventsFrom(cal);
+						
+						String desc = "Month: " + cal.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.US) + "\nDay: " + cal.get(Calendar.DATE) + "\n";
+		                int number = 0;
+	                	for(Event event : events) {
+		                	desc += "#" + (++number) + "\n" + event.toString() + "\n";
+		                }
+		                textField.setText(desc);	  
+	                
+						
 						dispose();
 					}
 				});

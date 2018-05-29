@@ -38,8 +38,8 @@ public class SettingsWindow extends JDialog {
 		
 		JLabel lblCurrentPerson = new JLabel("Current person");
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(this.getComboList(ll)));
+		JComboBox<String> comboBox = new JComboBox<String>();
+		comboBox.setModel(new DefaultComboBoxModel<String>(this.getComboList(ll)));
 		comboBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int id = comboBox.getSelectedIndex();
@@ -68,7 +68,7 @@ public class SettingsWindow extends JDialog {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				comboBox.setModel(new DefaultComboBoxModel(getComboList(ll)));
+				comboBox.setModel(new DefaultComboBoxModel<String>(getComboList(ll)));
 			}
 		});
 		

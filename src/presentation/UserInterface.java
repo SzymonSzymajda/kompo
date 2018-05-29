@@ -194,17 +194,12 @@ public class UserInterface extends JFrame {
 	                int day = (int)table.getModel().getValueAt(row, col);
 	                temp.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), day);
 	                ArrayList<Event> events = ll.getAllEventsFrom(temp);
-	                if(events.size()==0) {
-	                	textField.setText("Month: " + cal.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.US) + "\nDay: " + day);
+	                String desc = "Month: " + cal.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.US) + "\nDay: " + day + "\n";
+	                int number = 0;
+                	for(Event event : events) {
+	                	desc += "#" + (++number) + "\n" + event.toString() + "\n";
 	                }
-	                else {
-		                String description = "";
-		                int number = 0;
-	                	for(Event event : events) {
-		                	description += "#" + (++number) + "\n" + event.toString() + "\n";
-		                }
-		                textField.setText(description);	  
-	                }
+	                textField.setText(desc);	
 	                              
 	            }
 	    	}
@@ -218,7 +213,7 @@ public class UserInterface extends JFrame {
 		JButton btnAddEvent = new JButton("Add Event");
 		btnAddEvent.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new AddNewEventWindow(ll, temp); 
+				new AddNewEventWindow(ll, temp, textField);
 			}
 		});
 		
