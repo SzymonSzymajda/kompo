@@ -7,7 +7,7 @@ public class Program {
 
 	public static void main(String[] args) {
 		LogicLayer ll = new LogicLayer();
-		new UserInterface(ll);
+		UserInterface.getInstance(ll);
 	}
 
 }

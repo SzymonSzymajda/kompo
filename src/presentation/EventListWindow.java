@@ -42,20 +42,18 @@ import javax.swing.JMenuItem;
 import java.awt.Component;
 
 @SuppressWarnings("serial")
-public class UserInterface extends JFrame {
+public class EventListWindow extends JFrame {
 
 	private JPanel contentPane;
 	private DefaultTableModel model;
-	private JLabel label;
-	private JTextArea textField;
 	private Calendar temp = Calendar.getInstance();
 	private Calendar cal = new GregorianCalendar();
 	private Person currentPerson;
-	private static volatile UserInterface instance = null;
+	private static volatile EventListWindow instance = null;
 	
 	public static void getInstance(LogicLayer ll) {
 		if(instance == null) {
-			instance = new UserInterface(ll);
+			instance = new EventListWindow(ll);
 			System.out.println("simea");
 		}
 		else {
@@ -64,13 +62,13 @@ public class UserInterface extends JFrame {
 		}
 	}
 
-	public UserInterface(LogicLayer ll) {
+	public EventListWindow(LogicLayer ll) {
 		
 		try {
 			ll.loadDataService(XMLSerializer.importData("autosave.xml"));
 		} catch (LogicLayerException e2) {
 			// TODO Auto-generated catch block
-			new ErrorWindow(new LogicLayerException("No autosave"));
+			new ErrorWindow(e2);
 		}
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -89,7 +87,7 @@ public class UserInterface extends JFrame {
 		}
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setTitle("Calendar");
-		setBounds(100, 100, 864, 316);
+		setBounds(100, 100, 400, 316);
 		
 		addWindowListener(new WindowAdapter()
         {
@@ -147,18 +145,13 @@ public class UserInterface extends JFrame {
 		JMenuItem mntmCalendar = new JMenuItem("Calendar");
 		mntmCalendar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				instance.setVisible(false);
 				UserInterface.getInstance(ll);
 			}
 		});
 		mnView.add(mntmCalendar);
 		
 		JMenuItem mntmListOfEvents = new JMenuItem("List of events");
-		mntmListOfEvents.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				instance.setVisible(false);
-				EventListWindow.getInstance(ll);
-			}
-		});
 		mnView.add(mntmListOfEvents);
 		mntmLoadFromXml.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -171,39 +164,15 @@ public class UserInterface extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
 		
+		String[] s = new String[10];
 		
-		JSplitPane splitPane = new JSplitPane();
-		contentPane.add(splitPane, BorderLayout.CENTER);
+		for(int i=0; i<10; i++) {
+			s[i]=Integer.toString(i);
+		}
 		
-		JPanel panel = new JPanel();
-		splitPane.setLeftComponent(panel);
-		panel.setLayout(new BorderLayout(0, 0));
 		
-		JPanel panel_1 = new JPanel();
-		panel.add(panel_1, BorderLayout.NORTH);
-		panel_1.setLayout(new BorderLayout(0, 0));
-		
-		JButton button_1 = new JButton("->");
-		button_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				cal.add(Calendar.MONTH, +1);
-		        updateMonth();
-			}
-		});
-		panel_1.add(button_1, BorderLayout.EAST);
-		
-		JButton button = new JButton("<-");
-		button.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				cal.add(Calendar.MONTH, -1);
-		        updateMonth();
-			}
-		});
-		panel_1.add(button, BorderLayout.WEST);
-		
-		label = new JLabel();
-		panel_1.add(label);
-		label.setHorizontalAlignment(SwingConstants.CENTER);
+		JList list = new JList(s);
+		contentPane.add(list, BorderLayout.NORTH);
 				
 		String [] columns = {"Sun", "Mon","Tue","Wed","Thu","Fri","Sat"};
 	    model = new DefaultTableModel(null,columns) {
@@ -212,69 +181,6 @@ public class UserInterface extends JFrame {
 	    		return false;
 	    	}
 	    };
-	    JTable table = new JTable(model);
-	    table.addMouseListener(new MouseAdapter() {
-	    	@Override
-	    	public void mouseClicked(MouseEvent e) {
-	    		int row = table.rowAtPoint(e.getPoint());
-	            int col = table.columnAtPoint(e.getPoint());
-	            
-	            if(table.getModel().getValueAt(row, col) == null)
-	            	return;
-	            	
-	            if (row >= 0 && col >= 0) {
-	                int day = (int)table.getModel().getValueAt(row, col);
-	                temp.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), day);
-	                textField.setText(ll.getDayDescription(temp));	
-	                              
-	            }
-	    	}
-	    });
-	    JScrollPane panel_2 = new JScrollPane(table);
-		panel.add(panel_2, BorderLayout.CENTER);
-		
-		JPanel panel_3 = new JPanel();
-		panel.add(panel_3, BorderLayout.SOUTH);
-		
-		JButton btnAddEvent = new JButton("Add Event");
-		btnAddEvent.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				new AddNewEventWindow(ll, temp, textField);
-			}
-		});
-		
-		JButton btnDeleteEvent = new JButton("Delete Event");
-		btnDeleteEvent.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-                new DeleteEventWindow(ll, temp);
-			}
-		});
-		GroupLayout gl_panel_3 = new GroupLayout(panel_3);
-		gl_panel_3.setHorizontalGroup(
-			gl_panel_3.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, gl_panel_3.createSequentialGroup()
-					.addComponent(btnAddEvent)
-					.addPreferredGap(ComponentPlacement.RELATED, 294, Short.MAX_VALUE)
-					.addComponent(btnDeleteEvent))
-		);
-		gl_panel_3.setVerticalGroup(
-			gl_panel_3.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, gl_panel_3.createSequentialGroup()
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-					.addGroup(gl_panel_3.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btnDeleteEvent)
-						.addComponent(btnAddEvent)))
-		);
-		panel_3.setLayout(gl_panel_3);
-		
-		JScrollPane scrollPane = new JScrollPane();
-		splitPane.setRightComponent(scrollPane);
-		
-		textField = new JTextArea();
-		scrollPane.setViewportView(textField);
-		textField.setFont(new Font("Monospaced", Font.PLAIN, 14));
-		textField.setEnabled(false);
-		textField.setText("Month: " + "\nDay: ");
 		
 		this.updateMonth();
 		
@@ -286,7 +192,6 @@ public class UserInterface extends JFrame {
 	 
 	    String month = cal.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.US);
 	    int year = cal.get(Calendar.YEAR);
-	    label.setText(month + " " + year);
 	 
 	    int startDay = cal.get(Calendar.DAY_OF_WEEK);
 	    int numberOfDays = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
