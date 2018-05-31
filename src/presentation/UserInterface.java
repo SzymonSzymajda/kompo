@@ -222,7 +222,7 @@ public class UserInterface extends JFrame {
 	                int day = (int)table.getModel().getValueAt(row, col);
 	                temp.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), day);
 
-	                              
+	                textField.setText(ll.getDayDescription(temp));
 	            }
 	    	}
 	    });

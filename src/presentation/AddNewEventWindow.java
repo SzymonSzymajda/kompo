@@ -7,7 +7,9 @@ import java.awt.FlowLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
+import javax.swing.JSpinner;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.DateFormatter;
 
 import data.Event;
 import data.Person;
@@ -17,21 +19,25 @@ import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextArea;
+import javax.swing.SpinnerDateModel;
 import javax.swing.JComboBox;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.awt.Dimension;
+import java.awt.GridLayout;
 
 @SuppressWarnings("serial")
 public class AddNewEventWindow extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	JTextArea textArea;
-	private JComboBox hourBox;
-	private JComboBox minuteBox;
+	JSpinner spinner;
+
 
 	
 	public AddNewEventWindow(LogicLayer ll, Calendar cal, JTextArea textField, Person currentPerson) {
@@ -39,53 +45,50 @@ public class AddNewEventWindow extends JDialog {
 		this.setTitle("Add Event");
 		getContentPane().setLayout(new BorderLayout());
 		{
-			JPanel panel = new JPanel();
-			getContentPane().add(panel, BorderLayout.NORTH);
-			GridBagLayout gbl_panel = new GridBagLayout();
-			gbl_panel.columnWidths = new int[]{106, 32, 72, 60, 0};
-			gbl_panel.rowHeights = new int[]{25, 0};
-			gbl_panel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-			gbl_panel.rowWeights = new double[]{0.0, Double.MIN_VALUE};
-			panel.setLayout(gbl_panel);
-			{
-				JLabel label = new JLabel("Event time:");
-				label.setFont(new Font("Tahoma", Font.PLAIN, 20));
-				label.setEnabled(false);
-				GridBagConstraints gbc_label = new GridBagConstraints();
-				gbc_label.gridwidth = 2;
-				gbc_label.anchor = GridBagConstraints.NORTHWEST;
-				gbc_label.insets = new Insets(0, 0, 0, 5);
-				gbc_label.gridx = 0;
-				gbc_label.gridy = 0;
-				panel.add(label, gbc_label);
-			}
-			{
-				String[] hour = new String[24];
-				for(int i=0; i<24; i++) {
-					hour[i]=Integer.toString(i);
-				}
-				
-				hourBox = new JComboBox(hour);
-				GridBagConstraints gbc_hourBox = new GridBagConstraints();
-				gbc_hourBox.fill = GridBagConstraints.HORIZONTAL;
-				gbc_hourBox.insets = new Insets(0, 0, 0, 5);
-				gbc_hourBox.gridx = 2;
-				gbc_hourBox.gridy = 0;
-				panel.add(hourBox, gbc_hourBox);
-			}
-			{
-				String[] minute = new String[60];
-				for(int i=0; i<60; i++) {
-					minute[i]=Integer.toString(i);
-				}
-				
-				minuteBox = new JComboBox(minute);
-				GridBagConstraints gbc_minuteBox = new GridBagConstraints();
-				gbc_minuteBox.fill = GridBagConstraints.HORIZONTAL;
-				gbc_minuteBox.gridx = 3;
-				gbc_minuteBox.gridy = 0;
-				panel.add(minuteBox, gbc_minuteBox);
-			}
+			JPanel datePanel = new JPanel();
+			
+			
+			Calendar calendar = Calendar.getInstance();
+	        calendar.set(Calendar.HOUR_OF_DAY, 24);
+	        calendar.set(Calendar.MINUTE, 0);
+
+	        SpinnerDateModel model = new SpinnerDateModel();
+	        model.setValue(calendar.getTime());
+	        spinner = new JSpinner(model);
+	        spinner.setMinimumSize(new Dimension(200, 20));
+
+	        JSpinner.DateEditor editor = new JSpinner.DateEditor(spinner, "HH:mm");
+	        DateFormatter formatter = (DateFormatter)editor.getTextField().getFormatter();
+	        
+	        spinner.setEditor(editor);
+	        
+	        formatter.setAllowsInvalid(false);
+	        formatter.setOverwriteMode(true);
+	        GridBagLayout gbl_datePanel = new GridBagLayout();
+	        gbl_datePanel.columnWidths = new int[]{145, 18, 89, 0};
+	        gbl_datePanel.rowHeights = new int[]{25, 0};
+	        gbl_datePanel.columnWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
+	        gbl_datePanel.rowWeights = new double[]{0.0, Double.MIN_VALUE};
+	        datePanel.setLayout(gbl_datePanel);
+	        {
+	        	JLabel label = new JLabel("Event time:");
+	        	label.setFont(new Font("Tahoma", Font.PLAIN, 20));
+	        	label.setEnabled(false);
+	        	GridBagConstraints gbc_label = new GridBagConstraints();
+	        	gbc_label.fill = GridBagConstraints.BOTH;
+	        	gbc_label.insets = new Insets(0, 0, 0, 5);
+	        	gbc_label.gridx = 0;
+	        	gbc_label.gridy = 0;
+	        	datePanel.add(label, gbc_label);
+	        }
+			this.getContentPane().add(datePanel, BorderLayout.NORTH);
+				        	        	        
+			GridBagConstraints gbc_spinner = new GridBagConstraints();
+			gbc_spinner.fill = GridBagConstraints.BOTH;
+			gbc_spinner.gridx = 2;
+			gbc_spinner.gridy = 0;
+			datePanel.add(spinner, gbc_spinner);
+
 		}
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -108,9 +111,8 @@ public class AddNewEventWindow extends JDialog {
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						String description = textArea.getText();
-						int hour = hourBox.getSelectedIndex();
-						int minutes = minuteBox.getSelectedIndex();
-						Event ev = new Event(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DATE), hour, minutes, description, Person.currentPerson);
+						Date time =  (Date) spinner.getValue();
+						Event ev = new Event(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DATE), time.getHours(), time.getMinutes(), description, Person.currentPerson);
 						ll.createEvent(ev);						
 
 		                textField.setText(ll.getDayDescription(cal));

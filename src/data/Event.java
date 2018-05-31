@@ -1,11 +1,11 @@
 package data;
 
 import java.io.Serializable;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.HashSet;
 
 public class Event implements Serializable{
 	

@@ -54,7 +54,6 @@ public class EventListWindow extends JFrame {
 	public static void getInstance(LogicLayer ll) {
 		if(instance == null) {
 			instance = new EventListWindow(ll);
-			System.out.println("simea");
 		}
 		else {
 			instance.setVisible(true);
@@ -171,7 +170,7 @@ public class EventListWindow extends JFrame {
 		}
 		
 		
-		JList list = new JList(s);
+		JList<String> list = new JList<String>(s);
 		contentPane.add(list, BorderLayout.NORTH);
 				
 		String [] columns = {"Sun", "Mon","Tue","Wed","Thu","Fri","Sat"};
