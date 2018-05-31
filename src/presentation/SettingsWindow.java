@@ -27,9 +27,11 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 public class SettingsWindow extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
-	Person cp;
+	private JComboBox<String> comboBox;
+	private Person cp;
 
 	public SettingsWindow(LogicLayer ll, Person currentPerson) {
+		cp = currentPerson;
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 234, 171);
 		getContentPane().setLayout(new BorderLayout());
@@ -38,19 +40,20 @@ public class SettingsWindow extends JDialog {
 		
 		JLabel lblCurrentPerson = new JLabel("Current person");
 		
-		JComboBox<String> comboBox = new JComboBox<String>();
+		comboBox = new JComboBox<String>();
 		comboBox.setModel(new DefaultComboBoxModel<String>(this.getComboList(ll)));
 		comboBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int id = comboBox.getSelectedIndex();
 				try {
-					cp = ll.getPerson(id);
+					String[] selectedPerson = comboBox.getSelectedItem().toString().split(" ");					
+					cp = ll.getPerson(selectedPerson[0], selectedPerson[1]);
+					Person.currentPerson = cp;
 				} catch (LogicLayerException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}
 		});
+
 		
 		JButton btnAddNewPerson = new JButton("Add new person");
 		btnAddNewPerson.addActionListener(new ActionListener() {
@@ -63,9 +66,9 @@ public class SettingsWindow extends JDialog {
 		btnRemovePerson.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					ll.deletePerson(comboBox.getSelectedIndex());
+					String[] selectedPerson = comboBox.getSelectedItem().toString().split(" ");
+					ll.deletePerson(selectedPerson[0], selectedPerson[1]);
 				} catch (LogicLayerException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 				comboBox.setModel(new DefaultComboBoxModel<String>(getComboList(ll)));
@@ -107,7 +110,7 @@ public class SettingsWindow extends JDialog {
 				JButton okButton = new JButton("OK");
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						disposeAndChangeCurrentPerson(currentPerson);
+						dispose();
 					}
 				});
 				okButton.setActionCommand("OK");
@@ -120,15 +123,9 @@ public class SettingsWindow extends JDialog {
 	
 	Vector<String> getComboList(LogicLayer ll) {
 		Vector<String> ret =  new Vector<String>();
-		for(Person p : ll.getAllPeople().values()) {
+		for(Person p : ll.getAllPeople()) {
 			ret.add(p.getName() + " " + p.getSurname());
 		}
 		return ret;
-	}
-	
-	
-	void disposeAndChangeCurrentPerson(Person currentPerson) {
-	    currentPerson = this.cp;
-	    super.dispose();
 	}
 }

@@ -1,27 +1,27 @@
 package data;
 
+import java.util.ArrayList;
 import java.util.TreeMap;
 
 public class DataService {
 	
 	private DataContext Data = new DataContext();
 	
-	private int peopleCounter = 0;
 	private int eventCounter = 0;
 	
 	//CRUD Person
 	public void createPerson(Person p) {
-		Data.People.put(peopleCounter, p);
-		peopleCounter++;
+		Data.People.add(p);
 	}
-	public Person getPerson(int id) throws DataServiceException {
-		if(Data.People.containsKey(id)) {
-			return Data.People.get(id);
+	public Person getPerson(String name, String surname) throws DataServiceException {
+		for(Person p : Data.People) {
+			if(p.getName().equals(name) && p.getSurname().equals(surname)) {
+				return p;
+			}
 		}
-		else {
-			throw new DataServiceException("Given ID is not mapped");
-		}
+		throw new DataServiceException("Specified person does not exist");
 	}
+	/*
 	public void updatePerson(int id, Person p) throws DataServiceException {
 		if(Data.People.containsKey(id)) {
 			Data.People.put(id, p);
@@ -29,24 +29,24 @@ public class DataService {
 		else {
 			throw new DataServiceException("Given ID is not mapped");
 		}			
-	}
-	public void deletePerson(int id) throws DataServiceException {
-		if(Data.People.containsKey(id)) {
-			Data.People.remove(id);
+	}*/
+	public void deletePerson(String name, String surname) throws DataServiceException {
+		for(Person p : Data.People) {
+			if(p.getName().equals(name) && p.getSurname().equals(surname)) {
+				Data.People.remove(p);
+			}
 		}
-		else {
-			throw new DataServiceException("Given ID is not mapped");
-		}
+		throw new DataServiceException("Specified person does not exist");
 	}
 	public void deletePerson(Person p) throws DataServiceException {
-		if(Data.People.containsValue(p)) {
-			Data.People.values().remove(p);
+		if(Data.People.contains(p)) {
+			Data.People.remove(p);
 		}
 		else {
-			throw new DataServiceException("Given Person is not mapped");
+			throw new DataServiceException("Specified person does not exist");
 		}
 	}
-	public TreeMap<Integer, Person> getAllPeople(){
+	public ArrayList<Person> getAllPeople(){
 		return Data.People;
 	}
 	

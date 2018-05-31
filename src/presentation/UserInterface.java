@@ -75,16 +75,12 @@ public class UserInterface extends JFrame {
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch (InstantiationException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch (IllegalAccessException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch (UnsupportedLookAndFeelException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -225,7 +221,7 @@ public class UserInterface extends JFrame {
 	            if (row >= 0 && col >= 0) {
 	                int day = (int)table.getModel().getValueAt(row, col);
 	                temp.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), day);
-	                textField.setText(ll.getDayDescription(temp));	
+
 	                              
 	            }
 	    	}
@@ -239,7 +235,7 @@ public class UserInterface extends JFrame {
 		JButton btnAddEvent = new JButton("Add Event");
 		btnAddEvent.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new AddNewEventWindow(ll, temp, textField);
+				new AddNewEventWindow(ll, temp, textField, currentPerson);
 			}
 		});
 		
@@ -279,6 +275,7 @@ public class UserInterface extends JFrame {
 		this.updateMonth();
 		
 		this.setVisible(true);
+		new SettingsWindow(ll, currentPerson);
 	}
 	
 	void updateMonth() {

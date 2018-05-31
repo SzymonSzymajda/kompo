@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import data.Event;
+import data.Person;
 
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -19,14 +20,10 @@ import java.util.Calendar;
 import java.util.Locale;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextArea;
-import javax.swing.SwingConstants;
-import javax.swing.JTextField;
-import javax.swing.JTextPane;
 import javax.swing.JComboBox;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
-import java.awt.Component;
 
 @SuppressWarnings("serial")
 public class AddNewEventWindow extends JDialog {
@@ -37,7 +34,7 @@ public class AddNewEventWindow extends JDialog {
 	private JComboBox minuteBox;
 
 	
-	public AddNewEventWindow(LogicLayer ll, Calendar cal, JTextArea textField) {
+	public AddNewEventWindow(LogicLayer ll, Calendar cal, JTextArea textField, Person currentPerson) {
 		setBounds(100, 100, 450, 300);
 		this.setTitle("Add Event");
 		getContentPane().setLayout(new BorderLayout());
@@ -113,9 +110,11 @@ public class AddNewEventWindow extends JDialog {
 						String description = textArea.getText();
 						int hour = hourBox.getSelectedIndex();
 						int minutes = minuteBox.getSelectedIndex();
-						Event ev = new Event(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DATE), hour, minutes, description);
+						Event ev = new Event(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DATE), hour, minutes, description, Person.currentPerson);
 						ll.createEvent(ev);						
+
 		                textField.setText(ll.getDayDescription(cal));
+
 						dispose();
 					}
 				});

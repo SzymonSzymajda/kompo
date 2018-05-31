@@ -109,7 +109,7 @@ public class AddNewPersonWindow extends JDialog {
 	}
 	Vector<String> getComboList(LogicLayer ll) {
 		Vector<String> ret =  new Vector<String>();
-		for(Person p : ll.getAllPeople().values()) {
+		for(Person p : ll.getAllPeople()) {
 			ret.add(p.getName() + " " + p.getSurname());
 		}
 		return ret;
