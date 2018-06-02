@@ -2,6 +2,8 @@ package presentation;
 import logic.*;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -17,6 +19,7 @@ import java.util.GregorianCalendar;
 import java.util.Locale;
 import javax.swing.JSplitPane;
 import javax.swing.JButton;
+import javax.swing.JColorChooser;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -44,7 +47,7 @@ import java.awt.Component;
 @SuppressWarnings("serial")
 public class UserInterface extends JFrame {
 
-	private JPanel contentPane;
+	private static JPanel contentPane;
 	private DefaultTableModel model;
 	private JLabel label;
 	private JTextArea textField;
@@ -56,7 +59,6 @@ public class UserInterface extends JFrame {
 	public static void getInstance(LogicLayer ll) {
 		if(instance == null) {
 			instance = new UserInterface(ll);
-			System.out.println("simea");
 		}
 		else {
 			instance.setVisible(true);
@@ -97,71 +99,8 @@ public class UserInterface extends JFrame {
             }
         });
 		
-		JMenuBar menuBar = new JMenuBar();
-		setJMenuBar(menuBar);
+		UserInterface.menu(this, contentPane, ll);
 		
-		JMenu mnMore = new JMenu("More");
-		mnMore.setAlignmentX(Component.LEFT_ALIGNMENT);
-		menuBar.add(mnMore);
-		
-		JMenuItem mntmSettings = new JMenuItem("Settings");
-		mnMore.add(mntmSettings);
-		mntmSettings.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				new SettingsWindow(ll, currentPerson);
-			}
-		});
-		
-		JMenuItem mntmAbout = new JMenuItem("About");
-		mnMore.add(mntmAbout);
-		mntmAbout.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				new AboutWindow();
-			}
-		});
-		
-		JMenu mnSave = new JMenu("Save");
-		mnMore.add(mnSave);
-		
-		JMenuItem mntmSaveToXml = new JMenuItem("Save to XML");
-		mnSave.add(mntmSaveToXml);
-		mntmSaveToXml.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				new SaveToXmlWindow(ll.getDataService());
-			}
-		});
-		
-		JMenu mnLoad = new JMenu("Load");
-		mnMore.add(mnLoad);
-		
-		JMenuItem mntmLoadFromXml = new JMenuItem("Load from XML");
-		mnLoad.add(mntmLoadFromXml);
-		
-		JMenu mnView = new JMenu("View");
-		menuBar.add(mnView);
-		
-		JMenuItem mntmCalendar = new JMenuItem("Calendar");
-		mntmCalendar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				UserInterface.getInstance(ll);
-			}
-		});
-		mnView.add(mntmCalendar);
-		
-		JMenuItem mntmListOfEvents = new JMenuItem("List of events");
-		mntmListOfEvents.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				instance.setVisible(false);
-				EventListWindow.getInstance(ll);
-			}
-		});
-		mnView.add(mntmListOfEvents);
-		mntmLoadFromXml.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				new LoadFromXmlWindow(ll);
-			}
-		});
-
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -274,6 +213,7 @@ public class UserInterface extends JFrame {
 		
 		this.updateMonth();
 		
+		contentPane.setBackground(Settings.backgroundColor);
 		this.setVisible(true);
 		new SettingsWindow(ll, currentPerson);
 	}
@@ -300,4 +240,84 @@ public class UserInterface extends JFrame {
 	    }
 	 
 	  }
+	
+	public static void menu(JFrame frame, JPanel cp, LogicLayer ll) {
+		JMenuBar menuBar = new JMenuBar();
+		frame.setJMenuBar(menuBar);
+		
+		JMenu mnMore = new JMenu("More");
+		mnMore.setAlignmentX(Component.LEFT_ALIGNMENT);
+		menuBar.add(mnMore);
+		
+		JMenuItem mntmAbout = new JMenuItem("About");
+		mnMore.add(mntmAbout);
+		mntmAbout.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new AboutWindow();
+			}
+		});
+		
+		JMenu mnSave = new JMenu("Save");
+		mnMore.add(mnSave);
+		
+		JMenuItem mntmSaveToXml = new JMenuItem("Save to XML");
+		mnSave.add(mntmSaveToXml);
+		mntmSaveToXml.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new SaveToXmlWindow(ll.getDataService());
+			}
+		});
+		
+		JMenu mnLoad = new JMenu("Load");
+		mnMore.add(mnLoad);
+		
+		JMenuItem mntmLoadFromXml = new JMenuItem("Load from XML");
+		mnLoad.add(mntmLoadFromXml);
+		
+		JMenu mnSettings = new JMenu("Settings");
+		mnMore.add(mnSettings);
+		
+		JMenuItem mntmSettings = new JMenuItem("Change user");
+		mnSettings.add(mntmSettings);
+		
+		JMenuItem mntmChangeBackgroundColor = new JMenuItem("Change background color");
+		mntmChangeBackgroundColor.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Color c = JColorChooser.showDialog(frame,
+						"Choose a color", Settings.backgroundColor);
+				if (c != null) Settings.backgroundColor = c;
+			}
+		});
+		mnSettings.add(mntmChangeBackgroundColor);
+		mntmSettings.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new SettingsWindow(ll, Person.currentPerson);
+			}
+		});
+		
+		JMenu mnView = new JMenu("View");
+		menuBar.add(mnView);
+		
+		JMenuItem mntmCalendar = new JMenuItem("Calendar");
+		mntmCalendar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				UserInterface.getInstance(ll);
+			}
+		});
+		mnView.add(mntmCalendar);
+		
+		JMenuItem mntmListOfEvents = new JMenuItem("List of events");
+		mntmListOfEvents.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				instance.setVisible(false);
+				EventListWindow.getInstance(ll);
+			}
+		});
+		mnView.add(mntmListOfEvents);
+		mntmLoadFromXml.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new LoadFromXmlWindow(ll);
+			}
+		});
+	}
 }
