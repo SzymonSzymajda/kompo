@@ -7,6 +7,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import data.DataService;
+import logic.LogicLayerException;
+import logic.Serializer;
 import logic.XMLSerializer;
 
 import javax.swing.GroupLayout;
@@ -35,7 +37,12 @@ public class SaveToXmlWindow extends JDialog {
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String filename = textField.getText();
-				XMLSerializer.save(filename + ".xml", data);
+				try {
+					Serializer s = new XMLSerializer();
+					s.serialize(filename + ".xml", data);
+				} catch (LogicLayerException e1) {
+					new ErrorWindow(e1);
+				}
 				dispose();
 			}
 		});

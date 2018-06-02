@@ -24,13 +24,13 @@ import javax.swing.JComboBox;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
 @SuppressWarnings("serial")
-public class SettingsWindow extends JDialog {
+public class UserSelectionWindow extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	private JComboBox<String> comboBox;
 	private Person cp;
 
-	public SettingsWindow(LogicLayer ll, Person currentPerson) {
+	public UserSelectionWindow(LogicLayer ll, Person currentPerson) {
 		cp = currentPerson;
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 234, 171);

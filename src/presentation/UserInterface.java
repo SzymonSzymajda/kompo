@@ -42,7 +42,10 @@ import javax.swing.JList;
 import javax.swing.JComboBox;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+
 import java.awt.Component;
+import javax.swing.JCheckBox;
 
 @SuppressWarnings("serial")
 public class UserInterface extends JFrame {
@@ -68,38 +71,10 @@ public class UserInterface extends JFrame {
 
 	public UserInterface(LogicLayer ll) {
 		
-		try {
-			ll.loadDataService(XMLSerializer.importData("autosave.xml"));
-		} catch (LogicLayerException e2) {
-			// TODO Auto-generated catch block
-			new ErrorWindow(new LogicLayerException("No autosave"));
-		}
-		try {
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		} catch (ClassNotFoundException e1) {
-			e1.printStackTrace();
-		} catch (InstantiationException e1) {
-			e1.printStackTrace();
-		} catch (IllegalAccessException e1) {
-			e1.printStackTrace();
-		} catch (UnsupportedLookAndFeelException e1) {
-			e1.printStackTrace();
-		}
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setTitle("Calendar");
-		setBounds(100, 100, 864, 316);
 		
-		addWindowListener(new WindowAdapter()
-        {
-            @Override
-            public void windowClosing(WindowEvent e)
-            {
-                XMLSerializer.save("autosave.xml", ll.getDataService());
-                e.getWindow().dispose();
-            }
-        });
+		Settings.init(this, ll);
 		
-		UserInterface.menu(this, contentPane, ll);
+		Settings.menuInit(this, contentPane, ll);
 		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -215,7 +190,7 @@ public class UserInterface extends JFrame {
 		
 		contentPane.setBackground(Settings.backgroundColor);
 		this.setVisible(true);
-		new SettingsWindow(ll, currentPerson);
+		new UserSelectionWindow(ll, currentPerson);
 	}
 	
 	void updateMonth() {
@@ -240,84 +215,4 @@ public class UserInterface extends JFrame {
 	    }
 	 
 	  }
-	
-	public static void menu(JFrame frame, JPanel cp, LogicLayer ll) {
-		JMenuBar menuBar = new JMenuBar();
-		frame.setJMenuBar(menuBar);
-		
-		JMenu mnMore = new JMenu("More");
-		mnMore.setAlignmentX(Component.LEFT_ALIGNMENT);
-		menuBar.add(mnMore);
-		
-		JMenuItem mntmAbout = new JMenuItem("About");
-		mnMore.add(mntmAbout);
-		mntmAbout.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				new AboutWindow();
-			}
-		});
-		
-		JMenu mnSave = new JMenu("Save");
-		mnMore.add(mnSave);
-		
-		JMenuItem mntmSaveToXml = new JMenuItem("Save to XML");
-		mnSave.add(mntmSaveToXml);
-		mntmSaveToXml.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				new SaveToXmlWindow(ll.getDataService());
-			}
-		});
-		
-		JMenu mnLoad = new JMenu("Load");
-		mnMore.add(mnLoad);
-		
-		JMenuItem mntmLoadFromXml = new JMenuItem("Load from XML");
-		mnLoad.add(mntmLoadFromXml);
-		
-		JMenu mnSettings = new JMenu("Settings");
-		mnMore.add(mnSettings);
-		
-		JMenuItem mntmSettings = new JMenuItem("Change user");
-		mnSettings.add(mntmSettings);
-		
-		JMenuItem mntmChangeBackgroundColor = new JMenuItem("Change background color");
-		mntmChangeBackgroundColor.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Color c = JColorChooser.showDialog(frame,
-						"Choose a color", Settings.backgroundColor);
-				if (c != null) Settings.backgroundColor = c;
-			}
-		});
-		mnSettings.add(mntmChangeBackgroundColor);
-		mntmSettings.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				new SettingsWindow(ll, Person.currentPerson);
-			}
-		});
-		
-		JMenu mnView = new JMenu("View");
-		menuBar.add(mnView);
-		
-		JMenuItem mntmCalendar = new JMenuItem("Calendar");
-		mntmCalendar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				UserInterface.getInstance(ll);
-			}
-		});
-		mnView.add(mntmCalendar);
-		
-		JMenuItem mntmListOfEvents = new JMenuItem("List of events");
-		mntmListOfEvents.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				instance.setVisible(false);
-				EventListWindow.getInstance(ll);
-			}
-		});
-		mnView.add(mntmListOfEvents);
-		mntmLoadFromXml.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				new LoadFromXmlWindow(ll);
-			}
-		});
-	}
 }

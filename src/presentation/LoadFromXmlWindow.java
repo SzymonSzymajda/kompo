@@ -8,6 +8,7 @@ import javax.swing.border.EmptyBorder;
 
 import logic.LogicLayer;
 import logic.LogicLayerException;
+import logic.Serializer;
 import logic.XMLSerializer;
 
 import javax.swing.GroupLayout;
@@ -39,7 +40,8 @@ public class LoadFromXmlWindow extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				String filename = textField.getText();
 				try {
-					ll.loadDataService(XMLSerializer.importData(filename + ".xml"));
+					Serializer s = new XMLSerializer();
+					ll.loadDataService(s.deserialize(filename + ".xml"));
 				} catch (LogicLayerException e1) {
 					new ErrorWindow(e1);
 				}

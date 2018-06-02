@@ -44,11 +44,9 @@ import java.awt.Component;
 @SuppressWarnings("serial")
 public class EventListWindow extends JFrame {
 
-	private JPanel contentPane;
+	private static JPanel contentPane;
 	private DefaultTableModel model;
-	private Calendar temp = Calendar.getInstance();
 	private Calendar cal = new GregorianCalendar();
-	private Person currentPerson;
 	private static volatile EventListWindow instance = null;
 	
 	public static void getInstance(LogicLayer ll) {
@@ -62,101 +60,9 @@ public class EventListWindow extends JFrame {
 	}
 
 	public EventListWindow(LogicLayer ll) {
+		Settings.init(this, ll);
 		
-		try {
-			ll.loadDataService(XMLSerializer.importData("autosave.xml"));
-		} catch (LogicLayerException e2) {
-			// TODO Auto-generated catch block
-			new ErrorWindow(e2);
-		}
-		try {
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (InstantiationException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (IllegalAccessException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (UnsupportedLookAndFeelException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setTitle("Calendar");
-		setBounds(100, 100, 400, 316);
-		
-		addWindowListener(new WindowAdapter()
-        {
-            @Override
-            public void windowClosing(WindowEvent e)
-            {
-                XMLSerializer.save("autosave.xml", ll.getDataService());
-                e.getWindow().dispose();
-            }
-        });
-		
-		JMenuBar menuBar = new JMenuBar();
-		setJMenuBar(menuBar);
-		
-		JMenu mnMore = new JMenu("More");
-		mnMore.setAlignmentX(Component.LEFT_ALIGNMENT);
-		menuBar.add(mnMore);
-		
-		JMenuItem mntmSettings = new JMenuItem("Settings");
-		mnMore.add(mntmSettings);
-		mntmSettings.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				new SettingsWindow(ll, currentPerson);
-			}
-		});
-		
-		JMenuItem mntmAbout = new JMenuItem("About");
-		mnMore.add(mntmAbout);
-		mntmAbout.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				new AboutWindow();
-			}
-		});
-		
-		JMenu mnSave = new JMenu("Save");
-		mnMore.add(mnSave);
-		
-		JMenuItem mntmSaveToXml = new JMenuItem("Save to XML");
-		mnSave.add(mntmSaveToXml);
-		mntmSaveToXml.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				new SaveToXmlWindow(ll.getDataService());
-			}
-		});
-		
-		JMenu mnLoad = new JMenu("Load");
-		mnMore.add(mnLoad);
-		
-		JMenuItem mntmLoadFromXml = new JMenuItem("Load from XML");
-		mnLoad.add(mntmLoadFromXml);
-		
-		JMenu mnView = new JMenu("View");
-		menuBar.add(mnView);
-		
-		JMenuItem mntmCalendar = new JMenuItem("Calendar");
-		mntmCalendar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				instance.setVisible(false);
-				UserInterface.getInstance(ll);
-			}
-		});
-		mnView.add(mntmCalendar);
-		
-		JMenuItem mntmListOfEvents = new JMenuItem("List of events");
-		mnView.add(mntmListOfEvents);
-		mntmLoadFromXml.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				new LoadFromXmlWindow(ll);
-			}
-		});
+		Settings.menuInit(this, contentPane, ll);
 
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -170,7 +76,7 @@ public class EventListWindow extends JFrame {
 		}
 		
 		
-		JList<String> list = new JList<String>(s);
+		JList list = new JList(s);
 		contentPane.add(list, BorderLayout.NORTH);
 				
 		String [] columns = {"Sun", "Mon","Tue","Wed","Thu","Fri","Sat"};
@@ -189,8 +95,8 @@ public class EventListWindow extends JFrame {
 	void updateMonth() {
 	    cal.set(Calendar.DAY_OF_MONTH, 1);
 	 
-	    String month = cal.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.US);
-	    int year = cal.get(Calendar.YEAR);
+	   // String month = cal.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.US);
+	    //int year = cal.get(Calendar.YEAR);
 	 
 	    int startDay = cal.get(Calendar.DAY_OF_WEEK);
 	    int numberOfDays = cal.getActualMaximum(Calendar.DAY_OF_MONTH);

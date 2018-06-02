@@ -10,18 +10,18 @@ import com.thoughtworks.xstream.io.xml.StaxDriver;
 
 import data.DataService;
 
-public class XMLSerializer {
+public class XMLSerializer implements Serializer {
 	
-	public static void save(String filename, DataService data) {
+	public void serialize(String filename, DataService data) throws LogicLayerException {
 		XStream xstream = new XStream(new StaxDriver());
 		try {
 			xstream.toXML(data,new FileWriter(filename));
 		} catch (IOException e) {
-			e.printStackTrace();
+			throw new LogicLayerException("Unable to save");
 		}
 	}
 	
-	public static DataService importData(String fileName) throws LogicLayerException {
+	public DataService deserialize(String fileName) throws LogicLayerException {
 		XStream xstream = new XStream(new StaxDriver());
 		FileInputStream fileIn = null;
 		try {
@@ -32,4 +32,5 @@ public class XMLSerializer {
 		DataService data = (DataService)xstream.fromXML(fileIn);
 		return data;
 	}
+
 }
