@@ -6,6 +6,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 
 import javax.swing.JColorChooser;
 import javax.swing.JFrame;
@@ -17,6 +21,10 @@ import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.StaxDriver;
+
+import data.DataService;
 import data.Person;
 import logic.LogicLayer;
 import logic.LogicLayerException;
@@ -24,13 +32,57 @@ import logic.Serializer;
 import logic.XMLSerializer;
 
 public class Settings {
-
-	public static Color backgroundColor = Color.BLACK;
-	public static boolean autosave = true;	
 	
-	public static void init(JFrame frame, LogicLayer ll) {
+	public static Settings instance = null;
+	public Color backgroundColor;
+	public boolean autosave;	
+	
+	public Settings() {
+		backgroundColor = null;
+		autosave = false;
+	}
+	
+	public static Settings getInstance() {
+		if(instance == null) {
+			return new Settings();
+		}else {
+			return instance;
+		}
+	}
+	
+	public void saveSettings() {
+		System.out.println(Settings.getInstance().backgroundColor);
+		System.out.println(Settings.getInstance().autosave);
 		
-		if(Settings.autosave) {
+		XStream xstream = new XStream(new StaxDriver());
+		try {
+			xstream.toXML(Settings.getInstance(),new FileWriter("settings.xml"));
+		} catch (IOException e) {
+			new ErrorWindow(e);
+		}
+	}
+	
+	public void loadSettings() {
+		XStream xstream = new XStream(new StaxDriver());
+		FileInputStream fileIn = null;
+		try {
+			fileIn = new FileInputStream("settings.xml");
+			instance = (Settings)xstream.fromXML(fileIn);
+			fileIn.close();
+		} catch (Exception e) {
+			new ErrorWindow("Unable to load previous settings");
+		} finally {
+			System.out.println(Settings.getInstance().backgroundColor);
+			System.out.println(Settings.getInstance().autosave);
+		}
+	}
+	
+	public void init(JFrame frame, LogicLayer ll) {
+		
+		loadSettings();
+		
+		
+		if(Settings.getInstance().autosave) {
 			try {
 				Serializer s = new XMLSerializer();
 				ll.loadDataService(s.deserialize("autosave.xml"));
@@ -59,7 +111,8 @@ public class Settings {
             @Override
             public void windowClosing(WindowEvent e)
             {
-            	if(Settings.autosave) {
+    			saveSettings();
+            	if(Settings.getInstance().autosave) {
             		try {
             			Serializer s = new XMLSerializer();
 						s.serialize("autosave.xml", ll.getDataService());
@@ -72,7 +125,7 @@ public class Settings {
         });
 	}
 	
-	public static void menuInit(JFrame frame, JPanel cp, LogicLayer ll) {
+	public void menuInit(JFrame frame, JPanel cp, LogicLayer ll) {
 		JMenuBar menuBar = new JMenuBar();
 		frame.setJMenuBar(menuBar);
 		
@@ -115,8 +168,8 @@ public class Settings {
 		mntmChangeBackgroundColor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Color c = JColorChooser.showDialog(frame,
-						"Choose a color", Settings.backgroundColor);
-				if (c != null) Settings.backgroundColor = c;
+						"Choose a color", Settings.getInstance().backgroundColor);
+				if (c != null) Settings.getInstance().backgroundColor = c;
 			}
 		});
 		mnSettings.add(mntmChangeBackgroundColor);
@@ -127,9 +180,9 @@ public class Settings {
 				int result = JOptionPane.showConfirmDialog(frame, "Do you want to enable autosaving");
 				System.out.print(result);
 				if(result == 0) {
-					Settings.autosave = true;
+					Settings.getInstance().autosave = true;
 				}else if(result == 1) {
-					Settings.autosave = false;
+					Settings.getInstance().autosave = false;
 				}
 			}
 		});

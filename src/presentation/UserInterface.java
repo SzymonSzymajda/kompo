@@ -72,9 +72,9 @@ public class UserInterface extends JFrame {
 	public UserInterface(LogicLayer ll) {
 		
 		
-		Settings.init(this, ll);
+		Settings.getInstance().init(this, ll);
 		
-		Settings.menuInit(this, contentPane, ll);
+		Settings.getInstance().menuInit(this, contentPane, ll);
 		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -188,7 +188,8 @@ public class UserInterface extends JFrame {
 		
 		this.updateMonth();
 		
-		contentPane.setBackground(Settings.backgroundColor);
+		contentPane.setBackground(Settings.getInstance().backgroundColor);
+		
 		this.setVisible(true);
 		new UserSelectionWindow(ll, currentPerson);
 	}

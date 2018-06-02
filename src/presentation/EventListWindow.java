@@ -60,9 +60,9 @@ public class EventListWindow extends JFrame {
 	}
 
 	public EventListWindow(LogicLayer ll) {
-		Settings.init(this, ll);
+		Settings.getInstance().init(this, ll);
 		
-		Settings.menuInit(this, contentPane, ll);
+		Settings.getInstance().menuInit(this, contentPane, ll);
 
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
