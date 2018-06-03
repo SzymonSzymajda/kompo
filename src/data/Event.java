@@ -13,6 +13,7 @@ public class Event implements Serializable{
 	private String Description;
 	private Calendar EventDate;
 	private Person Owner;
+	private Calendar Notification = null;
 	
 	public Event() {}
 	
@@ -30,6 +31,24 @@ public class Event implements Serializable{
 		EventDate.setTime(date);
 		Description = description;
 		this.Owner = owner;
+	}
+	
+	public Event(int year, int month, int day, int hour, int minutes, String description, Calendar notification, Person owner) {
+		super();
+		EventDate = GregorianCalendar.getInstance();
+		EventDate.set(year, month, day, hour, minutes);
+		Description = description;
+		this.Owner = owner;
+		Notification = notification;
+	}
+	
+	public Event(Date date, String description, Calendar notification, Person owner) {
+		super();
+		EventDate = GregorianCalendar.getInstance();
+		EventDate.setTime(date);
+		Description = description;
+		this.Owner = owner;
+		Notification = notification;
 	}
 
 
@@ -51,6 +70,10 @@ public class Event implements Serializable{
 	
 	public Person getOwner() {
 		return Owner;
+	}
+	
+	public Calendar getNotification() {
+		return Notification;
 	}
 
 	public void setDescription(String description) {

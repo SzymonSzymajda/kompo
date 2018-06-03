@@ -15,6 +15,8 @@ import data.Event;
 import data.Person;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.util.Calendar;
@@ -22,6 +24,8 @@ import java.util.Date;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextArea;
 import javax.swing.SpinnerDateModel;
+import javax.swing.SpinnerNumberModel;
+
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
@@ -33,6 +37,7 @@ public class AddNewEventWindow extends JDialog {
 	private final JPanel contentPanel = new JPanel();
 	JTextArea textArea;
 	JSpinner spinner;
+	int notificationDays = 0;
 
 
 	
@@ -103,12 +108,48 @@ public class AddNewEventWindow extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
+				JButton notificationButton = new JButton("Add notification");
+				notificationButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						if(notificationDays != 0) {
+							new ErrorWindow("Notification already set to " + notificationDays);
+							return;
+						}
+						int initial=0, min=0, max=365, increment=1;
+						SpinnerNumberModel model =
+						new SpinnerNumberModel( initial, min, max, increment );
+						JSpinner spinner = new JSpinner(model);
+						String message = "Days before the event:";
+						int result = JOptionPane.showOptionDialog(null,
+								new Object[] { message, spinner},
+								"Notification", JOptionPane.OK_CANCEL_OPTION,
+								JOptionPane.QUESTION_MESSAGE,
+								null, null, null);
+						if(result == JOptionPane.OK_OPTION) {
+							int res = Integer.parseInt(spinner.getValue().toString());
+							if(res != 0) {
+								notificationDays = res;
+								System.out.println(notificationDays);
+							}
+						}
+					}
+				});
+				buttonPane.add(notificationButton);
+				
+			}
+			{
 				JButton okButton = new JButton("OK");
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						String description = textArea.getText();
-						Date time =  (Date) spinner.getValue();
-						Event ev = new Event(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DATE), time.getHours(), time.getMinutes(), description, Person.currentPerson);
+						Calendar time = Calendar.getInstance();
+						time.setTime((Date)spinner.getValue());
+						Calendar notification = (Calendar) cal.clone();
+						notification.add(Calendar.DATE, -1*notificationDays);
+						System.out.println(cal.getTime());
+						System.out.println(notification.getTime());
+						System.out.println(Person.currentPerson);
+						Event ev = new Event(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DATE), time.get(Calendar.HOUR), time.get(Calendar.MINUTE), description, notification, Person.currentPerson);
 						ll.createEvent(ev);						
 
 		                textField.setText(ll.getDayDescription(cal));

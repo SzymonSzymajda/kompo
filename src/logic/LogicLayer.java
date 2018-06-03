@@ -13,7 +13,7 @@ import data.Person;
 
 public class LogicLayer {
 	
-	private DataService Data = new DataServiceSQL();
+	private DataService Data = new DataService();
 	
 	//CRUD Person
 		public void createPerson(String name, String surname) {
@@ -52,6 +52,10 @@ public class LogicLayer {
 	//CRUD Event
 		public void createEvent(int year, int month, int day, int hour, int minutes, String description, Person owner) {
 			Data.createEvent(new Event(year, month, day, hour, minutes, description, owner));
+		}
+		
+		public void createEvent(int year, int month, int day, int hour, int minutes, String description, Calendar notification, Person owner) {
+			Data.createEvent(new Event(year, month, day, hour, minutes, description, notification, owner));
 		}
 		
 		public void createEvent(Event e){
