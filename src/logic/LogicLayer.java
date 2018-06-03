@@ -26,15 +26,7 @@ public class LogicLayer {
 				throw new LogicLayerException("Specified person does not exist");
 			}
 		}
-		/*
-		public void updatePerson(int id, Person p) throws LogicLayerException {
-			try {
-				Data.updatePerson(id, p);
-			} catch (DataServiceException e) {
-				throw new LogicLayerException("Specified person does not exist");
-			}		
-		}
-		*/
+		
 		public void deletePerson(String name, String surname) throws LogicLayerException {
 			try {
 				Data.deletePerson(name, surname);

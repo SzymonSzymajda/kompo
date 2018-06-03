@@ -12,7 +12,7 @@ CREATE TABLE People(
 	)
 
 CREATE TABLE Events(
-	ID_column INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+	ID INT NOT NULL IDENTITY(0,1) PRIMARY KEY,
 	date DATETIME,
 	description varchar(150),
 	ownerName varchar(20),

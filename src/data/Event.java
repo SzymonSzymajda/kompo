@@ -23,6 +23,15 @@ public class Event implements Serializable{
 		Description = description;
 		this.Owner = owner;
 	}
+	
+	public Event(Date date, String description, Person owner) {
+		super();
+		EventDate = GregorianCalendar.getInstance();
+		EventDate.setTime(date);
+		Description = description;
+		this.Owner = owner;
+	}
+
 
 	public Date getEventDate() {
 		return EventDate.getTime();
