@@ -7,7 +7,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -24,8 +23,8 @@ import javax.swing.UnsupportedLookAndFeelException;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.StaxDriver;
 
-import data.DataService;
 import data.Person;
+
 import logic.LogicLayer;
 import logic.LogicLayerException;
 import logic.Serializer;
@@ -124,7 +123,7 @@ public class Settings {
             }
         });
 	}
-	
+
 	public void menuInit(JFrame frame, JPanel cp, LogicLayer ll) {
 		JMenuBar menuBar = new JMenuBar();
 		frame.setJMenuBar(menuBar);
