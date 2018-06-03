@@ -7,12 +7,13 @@ import java.util.TreeMap;
 
 import data.DataService;
 import data.DataServiceException;
+import data.DataServiceSQL;
 import data.Event;
 import data.Person;
 
 public class LogicLayer {
 	
-	private DataService Data = new DataService();
+	private DataService Data = new DataServiceSQL();
 	
 	//CRUD Person
 		public void createPerson(String name, String surname) {
@@ -26,15 +27,7 @@ public class LogicLayer {
 				throw new LogicLayerException("Specified person does not exist");
 			}
 		}
-		/*
-		public void updatePerson(int id, Person p) throws LogicLayerException {
-			try {
-				Data.updatePerson(id, p);
-			} catch (DataServiceException e) {
-				throw new LogicLayerException("Specified person does not exist");
-			}		
-		}
-		*/
+		
 		public void deletePerson(String name, String surname) throws LogicLayerException {
 			try {
 				Data.deletePerson(name, surname);
@@ -128,7 +121,9 @@ public class LogicLayer {
 			String desc = "Month: " + day.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.US) + "\nDay: " + day.get(Calendar.DATE) + "\n";
             int number = 0;
         	for(Event event : events) {
-            	desc += "#" + (++number) + "\n" + event.toString() + "\n";
+        		if(event.getOwner().equals(Person.currentPerson)) {
+        			desc += "#" + (++number) + "\n" + event.toString() + "\n";
+        		}            	
             }
         	
         	return desc;

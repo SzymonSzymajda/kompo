@@ -5,7 +5,7 @@ import java.util.TreeMap;
 
 public class DataService {
 	
-	private DataContext Data = new DataContext();
+	protected DataContext Data = new DataContext();
 	
 	private int eventCounter = 0;
 	
@@ -21,15 +21,7 @@ public class DataService {
 		}
 		throw new DataServiceException("Specified person does not exist");
 	}
-	/*
-	public void updatePerson(int id, Person p) throws DataServiceException {
-		if(Data.People.containsKey(id)) {
-			Data.People.put(id, p);
-		}
-		else {
-			throw new DataServiceException("Given ID is not mapped");
-		}			
-	}*/
+	
 	public void deletePerson(String name, String surname) throws DataServiceException {
 		for(Person p : Data.People) {
 			if(p.getName().equals(name) && p.getSurname().equals(surname)) {
