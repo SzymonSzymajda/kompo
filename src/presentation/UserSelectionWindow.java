@@ -28,10 +28,8 @@ public class UserSelectionWindow extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	private JComboBox<String> comboBox;
-	private Person cp;
 
-	public UserSelectionWindow(LogicLayer ll, Person currentPerson) {
-		cp = currentPerson;
+	public UserSelectionWindow(LogicLayer ll) {
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 234, 171);
 		getContentPane().setLayout(new BorderLayout());
@@ -45,9 +43,8 @@ public class UserSelectionWindow extends JDialog {
 		comboBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					String[] selectedPerson = comboBox.getSelectedItem().toString().split(" ");					
-					cp = ll.getPerson(selectedPerson[0], selectedPerson[1]);
-					Person.currentPerson = cp;
+					String[] selectedPerson = comboBox.getSelectedItem().toString().split(" ");
+					Person.currentPerson = ll.getPerson(selectedPerson[0], selectedPerson[1]);
 				} catch (LogicLayerException e1) {
 					e1.printStackTrace();
 				}

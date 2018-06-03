@@ -17,19 +17,15 @@ import data.Person;
 import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextArea;
 import javax.swing.SpinnerDateModel;
-import javax.swing.JComboBox;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.Dimension;
-import java.awt.GridLayout;
 
 @SuppressWarnings("serial")
 public class AddNewEventWindow extends JDialog {
@@ -40,7 +36,7 @@ public class AddNewEventWindow extends JDialog {
 
 
 	
-	public AddNewEventWindow(LogicLayer ll, Calendar cal, JTextArea textField, Person currentPerson) {
+	public AddNewEventWindow(LogicLayer ll, Calendar cal, JTextArea textField) {
 		setBounds(100, 100, 450, 300);
 		this.setTitle("Add Event");
 		getContentPane().setLayout(new BorderLayout());

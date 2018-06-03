@@ -23,6 +23,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
+@SuppressWarnings("serial")
 public class AddNewPersonWindow extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
