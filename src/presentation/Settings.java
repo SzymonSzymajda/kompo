@@ -51,8 +51,8 @@ public class Settings {
 	}
 	
 	public void saveSettings() {
-		System.out.println(Settings.getInstance().backgroundColor);
-		System.out.println(Settings.getInstance().autosave);
+		//System.out.println(Settings.getInstance().backgroundColor);
+		//System.out.println(Settings.getInstance().autosave);
 		
 		XStream xstream = new XStream(new StaxDriver());
 		try {
@@ -72,8 +72,8 @@ public class Settings {
 		} catch (Exception e) {
 			new ErrorWindow("Unable to load previous settings");
 		} finally {
-			System.out.println(Settings.getInstance().backgroundColor);
-			System.out.println(Settings.getInstance().autosave);
+			//System.out.println(Settings.getInstance().backgroundColor);
+			//System.out.println(Settings.getInstance().autosave);
 		}
 	}
 	
@@ -178,7 +178,7 @@ public class Settings {
 		mntmAutosave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int result = JOptionPane.showConfirmDialog(frame, "Do you want to enable autosaving");
-				System.out.print(result);
+				//System.out.print(result);
 				if(result == 0) {
 					Settings.getInstance().autosave = true;
 				}else if(result == 1) {
@@ -189,7 +189,7 @@ public class Settings {
 		mnSettings.add(mntmAutosave);
 		mntmSettings.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new UserSelectionWindow(ll, Person.currentPerson);
+				new UserSelectionWindow(ll);
 			}
 		});
 		

@@ -28,15 +28,12 @@ public class DataServiceSQL extends DataService{
 		} catch (SQLServerException e) {
 			e.printStackTrace();
 		}
-		
-		super.Data = this.loadFromDatabase();
+		loadFromDatabase();
 	}
 	
-	private DataContext loadFromDatabase() {
-		DataContext ret = new DataContext();
-		ret.People = this.loadPeopleFromDatabase();
-		ret.Events = this.loadEventsFromDatabase();
-		return ret;
+	private void loadFromDatabase() {
+		super.Data.People = this.loadPeopleFromDatabase();
+		super.Data.Events = this.loadEventsFromDatabase();
 	}
 
 	private ArrayList<Person> loadPeopleFromDatabase() {
@@ -74,14 +71,14 @@ public class DataServiceSQL extends DataService{
 	        }
 		} catch(SQLException e) {
 			e.printStackTrace();
-		}		
+		}
 		return ret;
 	}
 	
 	@Override
 	public void createPerson(Person p) {
 		PreparedStatement stmt = null;
-		String query = "INSERT INTO calendar..People VALUES(?, ?)";
+		String query = "INSERT INTO calendar_data..People VALUES(?, ?)";
 		try {
 			stmt = con.prepareStatement(query);
 			stmt.setString(1, p.getName());
@@ -128,7 +125,7 @@ public class DataServiceSQL extends DataService{
 	
 	public void createEvent(Event e) {
 		PreparedStatement stmt = null;
-		String query = "INSERT INTO calendar..Events VALUES(?, ?, ?, ?)";
+		String query = "INSERT INTO calendar_data..Events VALUES(?, ?, ?, ?)";
 		try {
 			stmt = con.prepareStatement(query);
 			stmt.setDate(1, new java.sql.Date(e.getEventDate().getTime()));
