@@ -13,7 +13,7 @@ import data.Person;
 
 public class LogicLayer {
 	
-	private DataService Data = new DataServiceSQL();
+	private DataService Data = new DataService();
 	
 	/**
 	 * @param name

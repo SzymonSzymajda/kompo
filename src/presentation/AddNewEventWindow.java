@@ -142,13 +142,13 @@ public class AddNewEventWindow extends JDialog {
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						String description = textArea.getText();
+						if(description == null) {
+							description = "";
+						}
 						Calendar time = Calendar.getInstance();
 						time.setTime((Date)spinner.getValue());
 						Calendar notification = (Calendar) cal.clone();
 						notification.add(Calendar.DATE, -1*notificationDays);
-						System.out.println(cal.getTime());
-						System.out.println(notification.getTime());
-						System.out.println(Person.currentPerson);
 						Event ev = new Event(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DATE), time.get(Calendar.HOUR), time.get(Calendar.MINUTE), description, notification, Person.currentPerson);
 						ll.createEvent(ev);						
 
