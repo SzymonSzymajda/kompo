@@ -4,42 +4,12 @@ import logic.*;
 import java.awt.BorderLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
-import data.Event;
-import data.Person;
-
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.Locale;
-import javax.swing.JSplitPane;
-import javax.swing.JButton;
-import javax.swing.SwingConstants;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.JLabel;
-import javax.swing.JTable;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-
-import javax.swing.JTextArea;
-import java.awt.Font;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.JMenuBar;
 import javax.swing.JList;
-import javax.swing.JComboBox;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import java.awt.Component;
 
 @SuppressWarnings("serial")
 public class EventListWindow extends JFrame {
@@ -76,7 +46,7 @@ public class EventListWindow extends JFrame {
 		}
 		
 		
-		JList list = new JList(s);
+		JList<String> list = new JList<String>(s);
 		contentPane.add(list, BorderLayout.NORTH);
 				
 		String [] columns = {"Sun", "Mon","Tue","Wed","Thu","Fri","Sat"};

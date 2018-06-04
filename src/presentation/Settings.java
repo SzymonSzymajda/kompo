@@ -23,8 +23,6 @@ import javax.swing.UnsupportedLookAndFeelException;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.StaxDriver;
 
-import data.Person;
-
 import logic.LogicLayer;
 import logic.LogicLayerException;
 import logic.Serializer;

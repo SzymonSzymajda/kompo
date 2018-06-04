@@ -13,7 +13,7 @@ import data.Person;
 
 public class LogicLayer {
 	
-	private DataService Data = new DataService();
+	private DataService Data = new DataServiceSQL();
 	
 	//CRUD Person
 		public void createPerson(String name, String surname) {

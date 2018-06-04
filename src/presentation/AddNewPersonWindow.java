@@ -30,7 +30,7 @@ public class AddNewPersonWindow extends JDialog {
 	private JTextField textField;
 	private JTextField textField_1;
 
-	public AddNewPersonWindow(LogicLayer ll, JComboBox comboBox) {
+	public AddNewPersonWindow(LogicLayer ll, JComboBox<String> comboBox) {
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 231, 138);
 		getContentPane().setLayout(new BorderLayout());
@@ -87,7 +87,7 @@ public class AddNewPersonWindow extends JDialog {
 					public void actionPerformed(ActionEvent e) {
 						ll.createPerson(textField.getText(), textField_1.getText());
 						
-						comboBox.setModel(new DefaultComboBoxModel(getComboList(ll)));
+						comboBox.setModel(new DefaultComboBoxModel<String>(getComboList(ll)));
 						dispose();
 					}
 				});
