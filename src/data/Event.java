@@ -52,35 +52,61 @@ public class Event implements Serializable{
 	}
 
 
+	/**
+	 * @return
+	 */
 	public Date getEventDate() {
 		return EventDate.getTime();
 	}
 	
+	/**
+	 * @return
+	 */
 	public Calendar getEventDateCal() {
 		return EventDate;
 	}
 
+	/**
+	 * @param year
+	 * @param month
+	 * @param day
+	 */
 	public void setEventDate(int year, int month, int day) {
 		EventDate.set(year, month, day);
 	}
 
+	/**
+	 * @return
+	 */
 	public String getDescription() {
 		return Description;
 	}
 	
+	/**
+	 * @return
+	 */
 	public Person getOwner() {
 		return Owner;
 	}
 	
+	/**
+	 * @return
+	 */
 	public Calendar getNotification() {
 		return Notification;
 	}
 
+	/**
+	 * @param description
+	 */
 	public void setDescription(String description) {
 		Description = description;
 	}
 
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
 		SimpleDateFormat ft = new SimpleDateFormat("EEEE, d MMMM y 'o' H:m");

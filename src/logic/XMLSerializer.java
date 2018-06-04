@@ -12,6 +12,10 @@ import data.DataService;
 
 public class XMLSerializer implements Serializer {
 	
+	/* (non-Javadoc)
+	 * @see logic.Serializer#serialize(java.lang.String, data.DataService)
+	 */
+	@Override
 	public void serialize(String filename, DataService data) throws LogicLayerException {
 		XStream xstream = new XStream(new StaxDriver());
 		try {
@@ -21,6 +25,10 @@ public class XMLSerializer implements Serializer {
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see logic.Serializer#deserialize(java.lang.String)
+	 */
+	@Override
 	public DataService deserialize(String fileName) throws LogicLayerException {
 		XStream xstream = new XStream(new StaxDriver());
 		FileInputStream fileIn = null;

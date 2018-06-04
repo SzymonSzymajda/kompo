@@ -37,6 +37,9 @@ public class UserInterface extends JFrame {
 	private Calendar cal = new GregorianCalendar();
 	private static volatile UserInterface instance = null;
 	
+	/**
+	 * @param ll
+	 */
 	public static void getInstance(LogicLayer ll) {
 		if(instance == null) {
 			instance = new UserInterface(ll);
@@ -172,6 +175,9 @@ public class UserInterface extends JFrame {
 		new UserSelectionWindow(ll);
 	}
 	
+	/**
+	 * 
+	 */
 	void updateMonth() {
 	    cal.set(Calendar.DAY_OF_MONTH, 1);
 	 

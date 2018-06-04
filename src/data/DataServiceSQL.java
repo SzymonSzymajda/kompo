@@ -15,6 +15,9 @@ public class DataServiceSQL extends DataService{
 	
 	private Connection con = null;
 	
+	/**
+	 * 
+	 */
 	public DataServiceSQL() {
 		super();
 		
@@ -31,11 +34,17 @@ public class DataServiceSQL extends DataService{
 		loadFromDatabase();
 	}
 	
+	/**
+	 * 
+	 */
 	private void loadFromDatabase() {
 		super.Data.People = this.loadPeopleFromDatabase();
 		super.Data.Events = this.loadEventsFromDatabase();
 	}
 
+	/**
+	 * @return
+	 */
 	private ArrayList<Person> loadPeopleFromDatabase() {
 		ArrayList<Person> ret = new ArrayList<Person>();		
 		
@@ -53,6 +62,9 @@ public class DataServiceSQL extends DataService{
 		return ret;
 	}
 	
+	/**
+	 * @return
+	 */
 	private TreeMap<Integer, Event> loadEventsFromDatabase() {
 		TreeMap<Integer, Event> ret = new TreeMap<Integer, Event>();
 		
@@ -75,6 +87,9 @@ public class DataServiceSQL extends DataService{
 		return ret;
 	}
 	
+	/* (non-Javadoc)
+	 * @see data.DataService#createPerson(data.Person)
+	 */
 	@Override
 	public void createPerson(Person p) {
 		PreparedStatement stmt = null;
@@ -92,6 +107,10 @@ public class DataServiceSQL extends DataService{
 		super.createPerson(p);
 	}
 	
+	/* (non-Javadoc)
+	 * @see data.DataService#deletePerson(java.lang.String, java.lang.String)
+	 */
+	@Override
 	public void deletePerson(String name, String surname) throws DataServiceException {
 		PreparedStatement stmt = null;
 		String query = "DELETE FROM calendar_data..People WHERE pName = ? AND pSurname = ?";
@@ -107,6 +126,11 @@ public class DataServiceSQL extends DataService{
 		
 		super.deletePerson(name, surname);
 	}
+	
+	/* (non-Javadoc)
+	 * @see data.DataService#deletePerson(data.Person)
+	 */
+	@Override
 	public void deletePerson(Person p) throws DataServiceException {
 		PreparedStatement stmt = null;
 		String query = "DELETE FROM calendar_data..People WHERE pName = ? AND pSurname = ?";
@@ -123,6 +147,10 @@ public class DataServiceSQL extends DataService{
 		super.deletePerson(p);
 	}
 	
+	/* (non-Javadoc)
+	 * @see data.DataService#createEvent(data.Event)
+	 */
+	@Override
 	public void createEvent(Event e) {
 		PreparedStatement stmt = null;
 		String query = "INSERT INTO calendar_data..Events VALUES(?, ?, ?, ?)";
@@ -141,6 +169,10 @@ public class DataServiceSQL extends DataService{
 		super.createEvent(e);
 	}
 	
+	/* (non-Javadoc)
+	 * @see data.DataService#updateEvent(int, data.Event)
+	 */
+	@Override
 	public void updateEvent(int id, Event e) throws DataServiceException {
 		PreparedStatement stmt = null;
 		String query = "UPDATE calendar_data..Events SET date = ?, description = ?, ownerName = ?, ownerSurname = ? WHERE ID = ?";
@@ -159,6 +191,11 @@ public class DataServiceSQL extends DataService{
 		
 		super.updateEvent(id, e);			
 	}
+	
+	/* (non-Javadoc)
+	 * @see data.DataService#deleteEvent(int)
+	 */
+	@Override
 	public void deleteEvent(int id) throws DataServiceException  {
 		PreparedStatement stmt = null;
 		String query = "DELETE FROM calendar_data..Events WHERE ID = ?";
@@ -173,6 +210,11 @@ public class DataServiceSQL extends DataService{
 		
 		super.deleteEvent(id);
 	}
+	
+	/* (non-Javadoc)
+	 * @see data.DataService#deleteEvent(data.Event)
+	 */
+	@Override
 	public void deleteEvent(Event e) throws DataServiceException  {
 		PreparedStatement stmt = null;
 		String query = "DELET FROM calendar_data..Events WHERE date = ?, description = ?, ownerName = ?, ownerSurname = ? WHERE ID = ?";
