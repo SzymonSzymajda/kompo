@@ -62,7 +62,7 @@ public class Event implements Serializable{
 		EventDate = GregorianCalendar.getInstance();
 		EventDate.set(year, month, day, hour, minutes);
 		Description = description;
-		this.Owner = owner;
+		Owner = owner;
 		Notification = notification;
 	}
 	

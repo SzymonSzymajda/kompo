@@ -13,7 +13,7 @@ import data.Person;
 
 public class LogicLayer {
 	
-	private DataService Data;
+	private DataServiceSQL Data;
 	
 	public LogicLayer() {
 		this.Data = new DataServiceSQL();
@@ -203,7 +203,7 @@ public class LogicLayer {
 	 * @param data DataService object to be set as current DataService
 	 */
 	public void loadDataService(DataService data) {
-		this.Data = data;
+		this.Data = (DataServiceSQL) data;
 	}
 	
 	/**

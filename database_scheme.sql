@@ -17,6 +17,7 @@ CREATE TABLE Events(
 	description varchar(150),
 	ownerName varchar(20),
 	ownerSurname varchar(20),
+	notification DATETIME,
 
 	CONSTRAINT FK_Events
 	FOREIGN KEY(ownerName, ownerSurname)

@@ -7,7 +7,7 @@ public class DataService {
 	
 	protected DataContext Data = new DataContext();
 	
-	private int eventCounter = 0;
+	protected int eventCounter = 0;
 	
 	/**
 	 * @param p Person object being added to database

@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Map.Entry;
 import java.util.TreeMap;
 
 import com.microsoft.sqlserver.jdbc.SQLServerDataSource;
@@ -38,8 +40,10 @@ public class DataServiceSQL extends DataService{
 	 * 
 	 */
 	private void loadFromDatabase() {
+		super.eventCounter = this.setEventCounter();
+		System.out.println(super.eventCounter);
 		super.Data.People = this.loadPeopleFromDatabase();
-		super.Data.Events = this.loadEventsFromDatabase();
+		super.Data.Events = this.loadEventsFromDatabase();		
 	}
 
 	/**
@@ -76,7 +80,9 @@ public class DataServiceSQL extends DataService{
 	        while (rs.next()) {
 	        	for(Person p : super.Data.People) {
 	        		if(p.getName().equals(rs.getString("ownerName")) && p.getSurname().equals(rs.getString("ownerSurname"))) {
-	        			ret.put(rs.getInt("ID"), new Event(rs.getDate("date"), rs.getString("description"), p));
+	        			Calendar temp = Calendar.getInstance();
+	        			temp.setTime(rs.getTimestamp("notification"));
+	        			ret.put(rs.getInt("ID"), new Event(rs.getTimestamp("date"), rs.getString("description"), temp, p));
 	        		}
 	        	}
 	        	
@@ -85,6 +91,27 @@ public class DataServiceSQL extends DataService{
 			e.printStackTrace();
 		}
 		return ret;
+	}
+	
+	/**
+	 * @return eventCounter value from database
+	 */
+	private int setEventCounter() {
+		Statement stmt = null;
+		String query = "SELECT TOP 1 ID FROM calendar_data..Events ORDER BY ID DESC";
+		try {
+			stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			if(!rs.next()) {
+				query = "DBCC CHECKIDENT([calendar_data..Events], RESEED, -1)";
+				stmt.execute(query);
+				return 0;
+			}
+			return rs.getInt("ID");
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
 	}
 	
 	/* (non-Javadoc)
@@ -153,13 +180,14 @@ public class DataServiceSQL extends DataService{
 	@Override
 	public void createEvent(Event e) {
 		PreparedStatement stmt = null;
-		String query = "INSERT INTO calendar_data..Events VALUES(?, ?, ?, ?)";
+		String query = "INSERT INTO calendar_data..Events VALUES(?, ?, ?, ?, ?)";
 		try {
 			stmt = con.prepareStatement(query);
-			stmt.setDate(1, new java.sql.Date(e.getEventDate().getTime()));
+			stmt.setTimestamp(1, new java.sql.Timestamp(e.getEventDateCal().getTime().getTime()));
 			stmt.setString(2, e.getDescription());
 			stmt.setString(3, e.getOwner().getName());
 			stmt.setString(4, e.getOwner().getSurname());
+			stmt.setTimestamp(5, new java.sql.Timestamp(e.getNotification().getTime().getTime()));
 			stmt.executeUpdate();
 			
 		} catch(SQLException ex) {
@@ -178,17 +206,17 @@ public class DataServiceSQL extends DataService{
 		String query = "UPDATE calendar_data..Events SET date = ?, description = ?, ownerName = ?, ownerSurname = ? WHERE ID = ?";
 		try {
 			stmt = con.prepareStatement(query);
-			stmt.setDate(1, new java.sql.Date(e.getEventDate().getTime()));
+			stmt.setTimestamp(1, new java.sql.Timestamp(e.getEventDateCal().getTime().getTime()));
 			stmt.setString(2, e.getDescription());
 			stmt.setString(3, e.getOwner().getName());
 			stmt.setString(4, e.getOwner().getSurname());
-			stmt.setInt(5, id);
+			stmt.setTimestamp(5, new java.sql.Timestamp(e.getNotification().getTime().getTime()));
+			stmt.setInt(6, id);
 			stmt.executeUpdate();
 			
 		} catch(SQLException ex) {
 			ex.printStackTrace();
 		}
-		
 		super.updateEvent(id, e);			
 	}
 	
@@ -215,21 +243,11 @@ public class DataServiceSQL extends DataService{
 	 * @see data.DataService#deleteEvent(data.Event)
 	 */
 	@Override
-	public void deleteEvent(Event e) throws DataServiceException  {
-		PreparedStatement stmt = null;
-		String query = "DELET FROM calendar_data..Events WHERE date = ?, description = ?, ownerName = ?, ownerSurname = ? WHERE ID = ?";
-		try {
-			stmt = con.prepareStatement(query);
-			stmt.setDate(1, new java.sql.Date(e.getEventDate().getTime()));
-			stmt.setString(2, e.getDescription());
-			stmt.setString(3, e.getOwner().getName());
-			stmt.setString(4, e.getOwner().getSurname());
-			stmt.executeUpdate();
-			
-		} catch(SQLException ex) {
-			ex.printStackTrace();
+	public void deleteEvent(Event e) throws DataServiceException  {		
+		for(Entry<Integer, Event> ev : super.Data.Events.entrySet()) {
+			if(ev.getValue() == e) {
+				this.deleteEvent(ev.getKey());
+			}
 		}
-		
-		super.deleteEvent(e);
 	}
 }

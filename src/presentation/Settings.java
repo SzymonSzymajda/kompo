@@ -52,8 +52,6 @@ public class Settings {
 	}
 	
 	public void saveSettings() {
-		//System.out.println(Settings.getInstance().backgroundColor);
-		//System.out.println(Settings.getInstance().autosave);
 		
 		XStream xstream = new XStream(new StaxDriver());
 		try {
@@ -223,6 +221,7 @@ public class Settings {
 		});
 	}
 	
+	@SuppressWarnings("serial")
 	static class MyCellRenderer extends DefaultListCellRenderer {
 		   public static final String HTML_1 = "<html><body style='width: ";
 		   public static final String HTML_2 = "px'>";
@@ -234,7 +233,7 @@ public class Settings {
 		   }
 
 		   @Override
-		   public Component getListCellRendererComponent(JList list, Object value,
+		   public Component getListCellRendererComponent(@SuppressWarnings("rawtypes") JList list, Object value,
 		         int index, boolean isSelected, boolean cellHasFocus) {
 		      String text = HTML_1 + String.valueOf(width) + HTML_2 + value.toString()
 		            + HTML_3;

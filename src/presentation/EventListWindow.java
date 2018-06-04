@@ -8,23 +8,17 @@ import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.table.DefaultTableModel;
-
 import data.Event;
 
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import javax.swing.JList;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
-import javax.swing.ListModel;
 
 @SuppressWarnings("serial")
 public class EventListWindow extends JFrame {
 
 	private static JPanel contentPane;
-	private DefaultTableModel model;
-	private Calendar cal = new GregorianCalendar();
 	private static volatile EventListWindow instance = null;
 	private JList<Notif> list;
 	
