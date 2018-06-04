@@ -9,6 +9,7 @@ import java.awt.event.WindowEvent;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Calendar;
 
 import javax.swing.JColorChooser;
 import javax.swing.JFrame;
@@ -78,7 +79,6 @@ public class Settings {
 		
 		loadSettings();
 		
-		
 		if(Settings.getInstance().autosave) {
 			try {
 				Serializer s = new XMLSerializer();
@@ -87,6 +87,11 @@ public class Settings {
 				new ErrorWindow(new LogicLayerException("No autosave"));
 			}
 		}
+		
+		Calendar cutoff = Calendar.getInstance();
+		cutoff.add(Calendar.MONTH, -1);
+		ll.removeOldEvents(cutoff);
+		
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (ClassNotFoundException e1) {

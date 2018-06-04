@@ -72,7 +72,6 @@ public class DeleteEventWindow extends JDialog {
 						ArrayList<Event> events = ll.getAllEventsFrom(cal);
 						int number = Integer.parseInt(textField.getText());
 						try {
-							System.out.println("OK button");
 							ll.deleteEvent(events.get(number-1));
 						} catch (LogicLayerException e1) {
 							new ErrorWindow(e1);
