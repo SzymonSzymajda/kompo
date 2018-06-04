@@ -36,19 +36,20 @@ public class Settings {
 	
 	public static Settings instance = null;
 	public Color backgroundColor;
-	public boolean autosave;	
+	public boolean autosave;
+	public transient boolean database;
 	
 	public Settings() {
 		backgroundColor = null;
-		autosave = false;
+		autosave = true;
+		database = false;
 	}
 	
 	public static Settings getInstance() {
 		if(instance == null) {
-			return new Settings();
-		}else {
-			return instance;
+			instance = new Settings();
 		}
+		return instance;
 	}
 	
 	public void saveSettings() {

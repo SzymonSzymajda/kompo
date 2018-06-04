@@ -10,13 +10,18 @@ import data.DataServiceException;
 import data.DataServiceSQL;
 import data.Event;
 import data.Person;
+import presentation.Settings;
 
 public class LogicLayer {
 	
-	private DataServiceSQL Data;
+	private DataService Data;
 	
 	public LogicLayer() {
-		this.Data = new DataServiceSQL();
+		if(Settings.getInstance().database) {
+			this.Data = new DataServiceSQL();	
+		} else {
+			this.Data = new DataService();
+		}
 	}
 	
 	/**
@@ -203,7 +208,10 @@ public class LogicLayer {
 	 * @param data DataService object to be set as current DataService
 	 */
 	public void loadDataService(DataService data) {
-		this.Data = (DataServiceSQL) data;
+		if(Settings.getInstance().database) {
+			this.Data = (DataServiceSQL) data;
+		}
+		else this.Data = data;
 	}
 	
 	/**
