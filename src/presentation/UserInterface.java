@@ -2,17 +2,22 @@ package presentation;
 import logic.*;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
+import data.Event;
 import data.Person;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Locale;
+import java.util.Vector;
+
 import javax.swing.JSplitPane;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
@@ -24,9 +29,15 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JTextArea;
 import java.awt.Font;
+
+import javax.swing.DefaultListCellRenderer;
+import javax.swing.DefaultListModel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.ListModel;
+import javax.swing.JList;
+import java.awt.FlowLayout;
 
 @SuppressWarnings("serial")
 public class UserInterface extends JFrame {
@@ -34,10 +45,10 @@ public class UserInterface extends JFrame {
 	private static JPanel contentPane;
 	private DefaultTableModel model;
 	private JLabel label;
-	private JTextArea textField;
 	private Calendar temp = Calendar.getInstance();
 	private Calendar cal = new GregorianCalendar();
 	private static volatile UserInterface instance = null;
+	private JList<Event> list = new JList<Event>();
 	
 	/**
 	 * @param ll
@@ -118,8 +129,8 @@ public class UserInterface extends JFrame {
 	            if (row >= 0 && col >= 0) {
 	                int day = (int)table.getModel().getValueAt(row, col);
 	                temp.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), day);
-
-	                textField.setText(ll.getDayDescription(temp));
+	                
+	                updateEventList(ll);
 	            }
 	    	}
 	    });
@@ -136,43 +147,57 @@ public class UserInterface extends JFrame {
 					new ErrorWindow("No user selected");
 				}
 				else {
-					new AddNewEventWindow(ll, temp, textField);
+					new AddNewEventWindow(ll, temp, instance);
 				}
 			}
 		});
+		panel_3.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		panel_3.add(btnAddEvent);
 		
-		JButton btnDeleteEvent = new JButton("Delete Event");
-		btnDeleteEvent.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-                new DeleteEventWindow(ll, temp);
+		JPanel panel_4 = new JPanel();
+		splitPane.setRightComponent(panel_4);
+		panel_4.setLayout(new BorderLayout(0, 0));
+		
+		JScrollPane scrollList = new JScrollPane(list, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		list.setCellRenderer(new MyCellRenderer(300));
+		panel_4.add(scrollList);
+		
+		JPanel panel_5 = new JPanel();
+		panel_4.add(panel_5, BorderLayout.NORTH);
+		
+		JLabel lblEvents = new JLabel("Events");
+		panel_5.add(lblEvents);
+		
+		JPanel panel_6 = new JPanel();
+		panel_4.add(panel_6, BorderLayout.SOUTH);
+		
+		JButton btnEditEvent = new JButton("Edit Event");
+		btnEditEvent.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					ll.deleteEvent(list.getSelectedValue());
+					new AddNewEventWindow(ll, temp, instance);
+					instance.updateEventList(ll);
+				} catch (LogicLayerException e) {
+					new ErrorWindow("No event chosen");
+				}
+				
 			}
 		});
-		GroupLayout gl_panel_3 = new GroupLayout(panel_3);
-		gl_panel_3.setHorizontalGroup(
-			gl_panel_3.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, gl_panel_3.createSequentialGroup()
-					.addComponent(btnAddEvent)
-					.addPreferredGap(ComponentPlacement.RELATED, 294, Short.MAX_VALUE)
-					.addComponent(btnDeleteEvent))
-		);
-		gl_panel_3.setVerticalGroup(
-			gl_panel_3.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, gl_panel_3.createSequentialGroup()
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-					.addGroup(gl_panel_3.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btnDeleteEvent)
-						.addComponent(btnAddEvent)))
-		);
-		panel_3.setLayout(gl_panel_3);
+		panel_6.add(btnEditEvent);
 		
-		JScrollPane scrollPane = new JScrollPane();
-		splitPane.setRightComponent(scrollPane);
-		
-		textField = new JTextArea();
-		scrollPane.setViewportView(textField);
-		textField.setFont(new Font("Monospaced", Font.PLAIN, 14));
-		textField.setEnabled(false);
-		textField.setText("Month: " + "\nDay: ");
+		JButton btnDeleteEvent = new JButton("Delete Event");
+		panel_6.add(btnDeleteEvent);
+		btnDeleteEvent.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					ll.deleteEvent(list.getSelectedValue());
+					instance.updateEventList(ll);
+				} catch (LogicLayerException e) {
+					new ErrorWindow("No event chosen");
+				}
+			}
+		});
 		
 		this.updateMonth();
 		
@@ -182,6 +207,14 @@ public class UserInterface extends JFrame {
 		new UserSelectionWindow(ll);
 	}
 	
+	public void updateEventList(LogicLayer ll) {
+		DefaultListModel<Event> dlm = new DefaultListModel<Event>();
+        for(Event item: ll.getAllEventsFrom(temp)) {
+        	dlm.addElement(item);
+        }
+        list.setModel(dlm);	
+	}
+
 	/**
 	 * 
 	 */
@@ -207,4 +240,25 @@ public class UserInterface extends JFrame {
 	    }
 	 
 	  }
+	
+	class MyCellRenderer extends DefaultListCellRenderer {
+		   public static final String HTML_1 = "<html><body style='width: ";
+		   public static final String HTML_2 = "px'>";
+		   public static final String HTML_3 = "</html>";
+		   private int width;
+
+		   public MyCellRenderer(int width) {
+		      this.width = width;
+		   }
+
+		   @Override
+		   public Component getListCellRendererComponent(JList list, Object value,
+		         int index, boolean isSelected, boolean cellHasFocus) {
+		      String text = HTML_1 + String.valueOf(width) + HTML_2 + value.toString()
+		            + HTML_3;
+		      return super.getListCellRendererComponent(list, text, index, isSelected,
+		            cellHasFocus);
+		   }
+
+		}
 }

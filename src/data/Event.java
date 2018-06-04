@@ -109,10 +109,10 @@ public class Event implements Serializable{
 	 */
 	@Override
 	public String toString() {
-		SimpleDateFormat ft = new SimpleDateFormat("EEEE, d MMMM y 'o' H:m");
+		SimpleDateFormat ft = new SimpleDateFormat("H:m");
 
 		String ret = "";
-		ret = "Date: " + ft.format(EventDate.getTime()) + "\nDescription: " + Description;
+		ret = "Time: " + ft.format(EventDate.getTime()) + " | Description: " + Description;
 		return ret;
 	}
 }

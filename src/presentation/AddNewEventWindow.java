@@ -41,7 +41,7 @@ public class AddNewEventWindow extends JDialog {
 
 
 	
-	public AddNewEventWindow(LogicLayer ll, Calendar cal, JTextArea textField) {
+	public AddNewEventWindow(LogicLayer ll, Calendar cal, UserInterface ui) {
 		setBounds(100, 100, 450, 300);
 		this.setTitle("Add Event");
 		getContentPane().setLayout(new BorderLayout());
@@ -152,8 +152,8 @@ public class AddNewEventWindow extends JDialog {
 						Event ev = new Event(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DATE), time.get(Calendar.HOUR), time.get(Calendar.MINUTE), description, notification, Person.currentPerson);
 						ll.createEvent(ev);						
 
-		                textField.setText(ll.getDayDescription(cal));
-
+						ui.updateEventList(ll);
+						
 						dispose();
 					}
 				});
