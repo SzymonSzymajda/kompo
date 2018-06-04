@@ -13,7 +13,11 @@ import data.Person;
 
 public class LogicLayer {
 	
-	private DataService Data = new DataService();
+	private DataService Data;
+	
+	public LogicLayer() {
+		this.Data = new DataService();
+	}
 	
 	/**
 	 * @param name
@@ -205,8 +209,21 @@ public class LogicLayer {
     			desc += "#" + (++number) + "\n" + event.toString() + "\n";
     		}            	
         }
-    	
-    	return desc;
-		
+    	return desc;	
+	}
+	
+	/**
+	 * @param cutoff
+	 */
+	public void removeOldEvents(Calendar cutoff) {
+		for(Event e : this.Data.getAllEvents().values()) {
+			if(e.getEventDateCal().before(cutoff)) {
+				try {
+					this.Data.deleteEvent(e);
+				} catch (DataServiceException e1) {
+					e1.printStackTrace();
+				}
+			}
+		}
 	}
 }
