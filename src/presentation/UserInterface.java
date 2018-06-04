@@ -207,6 +207,9 @@ public class UserInterface extends JFrame {
 		new UserSelectionWindow(ll);
 	}
 	
+	/**
+	 * @param ll
+	 */
 	public void updateEventList(LogicLayer ll) {
 		DefaultListModel<Event> dlm = new DefaultListModel<Event>();
         for(Event item: ll.getAllEventsFrom(temp)) {
