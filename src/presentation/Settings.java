@@ -209,7 +209,6 @@ public class Settings {
 		JMenuItem mntmListOfEvents = new JMenuItem("List of events");
 		mntmListOfEvents.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				frame.setVisible(false);
 				EventListWindow.getInstance(ll);
 			}
 		});
