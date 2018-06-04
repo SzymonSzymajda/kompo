@@ -8,6 +8,8 @@ import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
+import data.Person;
+
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Locale;
@@ -130,7 +132,12 @@ public class UserInterface extends JFrame {
 		JButton btnAddEvent = new JButton("Add Event");
 		btnAddEvent.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new AddNewEventWindow(ll, temp, textField);
+				if(Person.currentPerson == null) {
+					new ErrorWindow("No user selected");
+				}
+				else {
+					new AddNewEventWindow(ll, temp, textField);
+				}
 			}
 		});
 		
