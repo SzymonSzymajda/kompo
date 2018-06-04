@@ -7,40 +7,47 @@ public class Person {
 	
 	public Person() {};
 	
+	/**
+	 * @param name name of the person
+	 * @param surname surname of the person
+	 */
 	public Person(String name, String surname) {
 		super();
 		Name = name;
 		Surname = surname;
 	}	
 
+	/**
+	 * @param currentPerson Person object whose values are going to be copied
+	 */
 	public Person(Person currentPerson) {
 		Name = currentPerson.getName();
 		Surname = currentPerson.getSurname();
 	}
 
 	/**
-	 * @return
+	 * @return String containing name of a person
 	 */
 	public String getName() {
 		return Name;
 	}
 
 	/**
-	 * @param name
+	 * @param name String to be set as a new name
 	 */
 	public void setName(String name) {
 		Name = name;
 	}
 
 	/**
-	 * @return
+	 * @return String containing surname of a person
 	 */
 	public String getSurname() {
 		return Surname;
 	}
 
 	/**
-	 * @param surname
+	 * @param surname String to be set as a new surname
 	 */
 	public void setSurname(String surname) {
 		Surname = surname;
@@ -55,8 +62,8 @@ public class Person {
 	}
 	
 	/**
-	 * @param p
-	 * @return
+	 * @param p Person object to compare this Person against
+	 * @return true if both object fields are equal, false otherwise
 	 */
 	public boolean equals(Person p) {
 		if(this.Name.equals(p.Name) && this.Surname.equals(p.Surname)) {

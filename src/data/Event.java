@@ -17,6 +17,15 @@ public class Event implements Serializable{
 	
 	public Event() {}
 	
+	/**
+	 * @param year year of the event
+	 * @param month month of the event
+	 * @param day day of the event
+	 * @param hour hour of the event
+	 * @param minutes minutes of the event
+	 * @param description description of the event
+	 * @param owner owner of the event
+	 */
 	public Event(int year, int month, int day, int hour, int minutes, String description, Person owner) {
 		super();
 		EventDate = GregorianCalendar.getInstance();
@@ -25,6 +34,11 @@ public class Event implements Serializable{
 		this.Owner = owner;
 	}
 	
+	/**
+	 * @param date date of the event
+	 * @param description description of the event
+	 * @param owner owner of the event
+	 */
 	public Event(Date date, String description, Person owner) {
 		super();
 		EventDate = GregorianCalendar.getInstance();
@@ -33,6 +47,16 @@ public class Event implements Serializable{
 		this.Owner = owner;
 	}
 	
+	/**
+	 * @param year year of the event
+	 * @param month month of the event
+	 * @param day day of the event
+	 * @param hour hour of the event
+	 * @param minutes minutes of the event
+	 * @param description description of the event
+	 * @param notification Notification object linked to the event
+	 * @param owner owner of the event
+	 */
 	public Event(int year, int month, int day, int hour, int minutes, String description, Calendar notification, Person owner) {
 		super();
 		EventDate = GregorianCalendar.getInstance();
@@ -42,6 +66,12 @@ public class Event implements Serializable{
 		Notification = notification;
 	}
 	
+	/**
+	 * @param date date of the event
+	 * @param description description of the event
+	 * @param notification Notification object linked to the event
+	 * @param owner owner of the event
+	 */
 	public Event(Date date, String description, Calendar notification, Person owner) {
 		super();
 		EventDate = GregorianCalendar.getInstance();
@@ -53,51 +83,51 @@ public class Event implements Serializable{
 
 
 	/**
-	 * @return
+	 * @return date of the event as a Date object
 	 */
 	public Date getEventDate() {
 		return EventDate.getTime();
 	}
 	
 	/**
-	 * @return
+	 * @return date of the event as a Calendar object
 	 */
 	public Calendar getEventDateCal() {
 		return EventDate;
 	}
 
 	/**
-	 * @param year
-	 * @param month
-	 * @param day
+	 * @param year year of the event
+	 * @param month month of the event
+	 * @param day day of the event
 	 */
 	public void setEventDate(int year, int month, int day) {
 		EventDate.set(year, month, day);
 	}
 
 	/**
-	 * @return
+	 * @return String containing description of the event
 	 */
 	public String getDescription() {
 		return Description;
 	}
 	
 	/**
-	 * @return
+	 * @return Person object linked the event
 	 */
 	public Person getOwner() {
 		return Owner;
 	}
 	
 	/**
-	 * @return
+	 * @return Notification object linked to the event
 	 */
 	public Calendar getNotification() {
 		return Notification;
 	}
 
 	/**
-	 * @param description
+	 * @param description String containing description description of the event
 	 */
 	public void setDescription(String description) {
 		Description = description;

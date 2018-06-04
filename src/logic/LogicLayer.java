@@ -16,22 +16,22 @@ public class LogicLayer {
 	private DataService Data;
 	
 	public LogicLayer() {
-		this.Data = new DataService();
+		this.Data = new DataServiceSQL();
 	}
 	
 	/**
-	 * @param name
-	 * @param surname
+	 * @param name name of new Person object
+	 * @param surname surname of new Person object
 	 */
 	public void createPerson(String name, String surname) {
 		Data.createPerson(new Person(name, surname));
 	}
 	
 	/**
-	 * @param name
-	 * @param surname
-	 * @return
-	 * @throws LogicLayerException
+	 * @param name name of person
+	 * @param surname surname of person
+	 * @return Person object with given name and surname
+	 * @throws LogicLayerException if given Person object with given name and surname does not exist
 	 */
 	public Person getPerson(String name, String surname) throws LogicLayerException{
 		try {
@@ -42,9 +42,9 @@ public class LogicLayer {
 	}
 	
 	/**
-	 * @param name
-	 * @param surname
-	 * @throws LogicLayerException
+	 * @param name name of person
+	 * @param surname surname of person
+	 * @throws LogicLayerException if given Person object with given name and surname does not exist
 	 */
 	public void deletePerson(String name, String surname) throws LogicLayerException {
 		try {
@@ -55,8 +55,8 @@ public class LogicLayer {
 	}
 	
 	/**
-	 * @param p
-	 * @throws LogicLayerException
+	 * @param p Person object being deleted
+	 * @throws LogicLayerException if given person does not exist
 	 */
 	public void deletePerson(Person p) throws LogicLayerException {
 		try {
@@ -68,50 +68,50 @@ public class LogicLayer {
 	}
 	
 	/**
-	 * @return
+	 * @return list containing all stored Person objects
 	 */
 	public ArrayList<Person> getAllPeople(){
 		return Data.getAllPeople();
 	}
 	
 	/**
-	 * @param year
-	 * @param month
-	 * @param day
-	 * @param hour
-	 * @param minutes
-	 * @param description
-	 * @param owner
+	 * @param year year of the event
+	 * @param month month of the event
+	 * @param day day of the event
+	 * @param hour hour of the event
+	 * @param minutes minutes of the event
+	 * @param description description of the event
+	 * @param owner owner of the event
 	 */
 	public void createEvent(int year, int month, int day, int hour, int minutes, String description, Person owner) {
 		Data.createEvent(new Event(year, month, day, hour, minutes, description, owner));
 	}
 	
 	/**
-	 * @param year
-	 * @param month
-	 * @param day
-	 * @param hour
-	 * @param minutes
-	 * @param description
-	 * @param notification
-	 * @param owner
+	 * @param year year of the event
+	 * @param month month of the event
+	 * @param day day of the event
+	 * @param hour hour of the event
+	 * @param minutes minutes of the event
+	 * @param description description of the event
+	 * @param notification Notification object linked to the event
+	 * @param owner owner of the event
 	 */
 	public void createEvent(int year, int month, int day, int hour, int minutes, String description, Calendar notification, Person owner) {
 		Data.createEvent(new Event(year, month, day, hour, minutes, description, notification, owner));
 	}
 	
 	/**
-	 * @param e
+	 * @param e Event object being added to database
 	 */
 	public void createEvent(Event e){
 		Data.createEvent(e);
 	}
 	
 	/**
-	 * @param id
-	 * @return
-	 * @throws LogicLayerException
+	 * @param id key to which sought Event object is mapped
+	 * @return Event object mapped to given key
+	 * @throws LogicLayerException if given key has no value mapped to it
 	 */
 	public Event getEvent(int id) throws LogicLayerException {
 		try {
@@ -122,9 +122,9 @@ public class LogicLayer {
 	}
 	
 	/**
-	 * @param id
-	 * @param e
-	 * @throws LogicLayerException
+	 * @param id key to which updated Event object is mapped
+	 * @param e new Event object to be mapped under given key
+	 * @throws LogicLayerException if given key has no value mapped to it
 	 */
 	public void updateEvent(int id, Event e) throws LogicLayerException {
 		try {
@@ -135,8 +135,8 @@ public class LogicLayer {
 	}
 	
 	/**
-	 * @param id
-	 * @throws LogicLayerException
+	 * @param id key to which Event object being removed is mapped
+	 * @throws LogicLayerException if given key has no value mapped to it
 	 */
 	public void deleteEvent(int id) throws LogicLayerException {
 		try {
@@ -147,27 +147,27 @@ public class LogicLayer {
 	}
 	
 	/**
-	 * @param e
-	 * @throws LogicLayerException
+	 * @param e Event object being removed
+	 * @throws LogicLayerException if given value is not mapped
 	 */
 	public void deleteEvent(Event e) throws LogicLayerException {
 		try {
 			Data.deleteEvent(e);
 		} catch (DataServiceException e1) {
-			throw new LogicLayerException("Given ID is not mapped");
+			throw new LogicLayerException("Given Event is not mapped");
 		}
 	}
 	
 	/**
-	 * @return
+	 * @return map contaning all stored Event objects
 	 */
 	public TreeMap<Integer, Event> getAllEvents(){
 		return Data.getAllEvents();
 	}
 	
 	/**
-	 * @param date
-	 * @return
+	 * @param date day whose events are going to be returned
+	 * @return list containing events happening on given date
 	 */
 	public ArrayList<Event> getAllEventsFrom(Calendar date){
 		ArrayList<Event> ret = new ArrayList<Event>();
@@ -182,22 +182,22 @@ public class LogicLayer {
 	}
 	
 	/**
-	 * @param data
+	 * @param data DataService object to be set as current DataService
 	 */
 	public void loadDataService(DataService data) {
 		this.Data = data;
 	}
 	
 	/**
-	 * @return
+	 * @return DataService object
 	 */
 	public DataService getDataService() {
 		return this.Data;
 	}
 	
 	/**
-	 * @param day
-	 * @return
+	 * @param day date whose description shall be returned
+	 * @return String containing description of all events on given day
 	 */
 	public String getDayDescription(Calendar day) {
 		ArrayList<Event> events = getAllEventsFrom(day);
@@ -213,7 +213,7 @@ public class LogicLayer {
 	}
 	
 	/**
-	 * @param cutoff
+	 * @param cutoff date before which all events are going to be removed
 	 */
 	public void removeOldEvents(Calendar cutoff) {
 		for(Event e : this.Data.getAllEvents().values()) {

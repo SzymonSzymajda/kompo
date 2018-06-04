@@ -10,16 +10,16 @@ public class DataService {
 	private int eventCounter = 0;
 	
 	/**
-	 * @param p
+	 * @param p Person object being added to database
 	 */
 	public void createPerson(Person p) {
 		Data.People.add(p);
 	}
 	/**
-	 * @param name
-	 * @param surname
-	 * @return
-	 * @throws DataServiceException
+	 * @param name value of name field of sought Person object
+	 * @param surname value of surname field of sought Person object
+	 * @return Person object with given name and surname 
+	 * @throws DataServiceException if the given Person object with given name and surname does not exist
 	 */
 	public Person getPerson(String name, String surname) throws DataServiceException {
 		for(Person p : Data.People) {
@@ -31,9 +31,9 @@ public class DataService {
 	}
 	
 	/**
-	 * @param name
-	 * @param surname
-	 * @throws DataServiceException
+	 * @param name value of name field of Person object being removed
+	 * @param surname value of surname field of Person object being removed
+	 * @throws DataServiceException if the given Person object with given name and surname does not exist
 	 */
 	public void deletePerson(String name, String surname) throws DataServiceException {
 		for(Person p : Data.People) {
@@ -44,8 +44,8 @@ public class DataService {
 		throw new DataServiceException("Specified person does not exist");
 	}
 	/**
-	 * @param p
-	 * @throws DataServiceException
+	 * @param p Person object being removed
+	 * @throws DataServiceException if given Person object is not mapped
 	 */
 	public void deletePerson(Person p) throws DataServiceException {
 		if(Data.People.contains(p)) {
@@ -56,23 +56,23 @@ public class DataService {
 		}
 	}
 	/**
-	 * @return
+	 * @return array containing all stored Person objects
 	 */
 	public ArrayList<Person> getAllPeople(){
 		return Data.People;
 	}
 	
 	/**
-	 * @param e
+	 * @param e Event object being added to database
 	 */
 	public void createEvent(Event e) {
 		Data.Events.put(eventCounter, e);
 		eventCounter++;
 	}
 	/**
-	 * @param id
-	 * @return
-	 * @throws DataServiceException
+	 * @param id key to which sought Event object is mapped
+	 * @return Event object
+	 * @throws DataServiceException if given key has no value mapped to it
 	 */
 	public Event getEvent(int id) throws DataServiceException {
 		if(Data.Events.containsKey(id)) {
@@ -83,9 +83,9 @@ public class DataService {
 		}
 	}
 	/**
-	 * @param id
-	 * @param e
-	 * @throws DataServiceException
+	 * @param id key to which updated Event object is mapped
+	 * @param e new Event object to be mapped under given key
+	 * @throws DataServiceException if given key has no value mapped to it
 	 */
 	public void updateEvent(int id, Event e) throws DataServiceException {
 		if(Data.Events.containsKey(id)) {
@@ -96,8 +96,8 @@ public class DataService {
 		}			
 	}
 	/**
-	 * @param id
-	 * @throws DataServiceException
+	 * @param id key to which Event object being removed is mapped
+	 * @throws DataServiceException if given key has no value mapped to it
 	 */
 	public void deleteEvent(int id) throws DataServiceException  {
 		if(Data.Events.containsKey(id)) {
@@ -108,8 +108,8 @@ public class DataService {
 		}
 	}
 	/**
-	 * @param e
-	 * @throws DataServiceException
+	 * @param e Event object being removed
+	 * @throws DataServiceException if given object is not mapped
 	 */
 	public void deleteEvent(Event e) throws DataServiceException  {
 		if(Data.Events.containsValue(e)) {
@@ -120,7 +120,7 @@ public class DataService {
 		}
 	}
 	/**
-	 * @return
+	 * @return map contaning all stored Event objects
 	 */
 	public TreeMap<Integer, Event> getAllEvents(){
 		return Data.Events;

@@ -40,7 +40,7 @@ public class UserInterface extends JFrame {
 	private static volatile UserInterface instance = null;
 	
 	/**
-	 * @param ll
+	 * @param ll LogicLayer object to be bound to new UserInterface instance
 	 */
 	public static void getInstance(LogicLayer ll) {
 		if(instance == null) {
