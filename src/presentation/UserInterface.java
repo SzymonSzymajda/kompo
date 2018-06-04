@@ -16,8 +16,6 @@ import data.Person;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Locale;
-import java.util.Vector;
-
 import javax.swing.JSplitPane;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
@@ -27,15 +25,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import javax.swing.JTextArea;
-import java.awt.Font;
-
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.ListModel;
 import javax.swing.JList;
 import java.awt.FlowLayout;
 
@@ -255,7 +246,7 @@ public class UserInterface extends JFrame {
 		   }
 
 		   @Override
-		   public Component getListCellRendererComponent(JList list, Object value,
+		   public Component getListCellRendererComponent(@SuppressWarnings("rawtypes") JList list, Object value,
 		         int index, boolean isSelected, boolean cellHasFocus) {
 		      String text = HTML_1 + String.valueOf(width) + HTML_2 + value.toString()
 		            + HTML_3;
