@@ -10,8 +10,8 @@ import java.util.GregorianCalendar;
 public class Event implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
-	private String Description;
-	private Calendar EventDate;
+	protected String Description;
+	protected Calendar EventDate;
 	private Person Owner;
 	private Calendar Notification = null;
 	

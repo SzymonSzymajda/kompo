@@ -2,14 +2,22 @@ package presentation;
 import logic.*;
 
 import java.awt.BorderLayout;
+import java.text.SimpleDateFormat;
+
+import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
+import data.Event;
+
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import javax.swing.JList;
+import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+import javax.swing.ListModel;
 
 @SuppressWarnings("serial")
 public class EventListWindow extends JFrame {
@@ -18,18 +26,20 @@ public class EventListWindow extends JFrame {
 	private DefaultTableModel model;
 	private Calendar cal = new GregorianCalendar();
 	private static volatile EventListWindow instance = null;
+	private JList<Notif> list;
 	
 	public static void getInstance(LogicLayer ll) {
 		if(instance == null) {
 			instance = new EventListWindow(ll);
 		}
 		else {
+			instance.updateNotificationList(ll);
 			instance.setVisible(true);
 			instance.requestFocus();
 		}
 	}
 
-	public EventListWindow(LogicLayer ll) {
+	public EventListWindow(LogicLayer ll) {		
 		Settings.getInstance().menuInit(this, contentPane, ll);
 
 		contentPane = new JPanel();
@@ -37,48 +47,49 @@ public class EventListWindow extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
 		
-		String[] s = new String[10];
+		JPanel panel = new JPanel();
+		this.setSize(300, 400);
+		this.setResizable(false);
+		contentPane.add(panel, BorderLayout.NORTH);
 		
-		for(int i=0; i<10; i++) {
-			s[i]=Integer.toString(i);
-		}
+		JLabel lblThisWeeksNotifications = new JLabel("This weeks notifications");
+		panel.add(lblThisWeeksNotifications);
 		
-		
-		JList<String> list = new JList<String>(s);
-		contentPane.add(list, BorderLayout.NORTH);
-				
-		String [] columns = {"Sun", "Mon","Tue","Wed","Thu","Fri","Sat"};
-	    model = new DefaultTableModel(null,columns) {
-	    	@Override
-	    	public boolean isCellEditable(int row, int column) {
-	    		return false;
-	    	}
-	    };
-		
-		this.updateMonth();
-		
+		list = new JList<Notif>();
+		list.setCellRenderer(new Settings.MyCellRenderer(290));
+
+		updateNotificationList(ll);
+
+		JScrollPane scrollPane = new JScrollPane(list, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		contentPane.add(scrollPane, BorderLayout.CENTER);
+
 		this.setVisible(true);
 	}
-	
-	void updateMonth() {
-	    cal.set(Calendar.DAY_OF_MONTH, 1);
-	 
-	   // String month = cal.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.US);
-	    //int year = cal.get(Calendar.YEAR);
-	 
-	    int startDay = cal.get(Calendar.DAY_OF_WEEK);
-	    int numberOfDays = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
-	    int weeks = (int) Math.ceil(( (float) numberOfDays + ( (float) startDay - 1)) / 7);
 
-	 
-	    model.setRowCount(0);
-	    model.setRowCount(weeks);
-	 
-	    int i = startDay-1;
-	    for(int day=1;day<=numberOfDays;day++){
-	      model.setValueAt(day, i/7 , i%7 );    
-	      i = i + 1;
-	    }
-	 
-	  }
+	public void updateNotificationList(LogicLayer ll) {
+		DefaultListModel<Notif> dlm = new DefaultListModel<Notif>();
+        for(Event item: ll.getNotifications(Calendar.getInstance())) {
+        	dlm.addElement(new Notif(item));
+        }
+        list.setModel(dlm);
+		
+	}
+	
+	class Notif extends Event{
+		public Notif(Event item) {
+			Description = item.getDescription();
+			EventDate = item.getEventDateCal();
+		}
+
+		@Override
+		public String toString() {
+			SimpleDateFormat time = new SimpleDateFormat("H:m");
+			SimpleDateFormat date = new SimpleDateFormat("d.M");
+
+			String ret = "";
+			ret = "Date: " + date.format(EventDate.getTime()) + " | Time: " + time.format(EventDate.getTime()) + " | Description: " + Description;
+			return ret;
+		}
+	}
+	
 }

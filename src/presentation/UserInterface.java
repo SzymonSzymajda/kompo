@@ -159,7 +159,8 @@ public class UserInterface extends JFrame {
 		panel_4.setLayout(new BorderLayout(0, 0));
 		
 		JScrollPane scrollList = new JScrollPane(list, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		list.setCellRenderer(new MyCellRenderer(300));
+		list.setCellRenderer(new Settings.MyCellRenderer(290));
+
 		panel_4.add(scrollList);
 		
 		JPanel panel_5 = new JPanel();
@@ -243,25 +244,4 @@ public class UserInterface extends JFrame {
 	    }
 	 
 	  }
-	
-	class MyCellRenderer extends DefaultListCellRenderer {
-		   public static final String HTML_1 = "<html><body style='width: ";
-		   public static final String HTML_2 = "px'>";
-		   public static final String HTML_3 = "</html>";
-		   private int width;
-
-		   public MyCellRenderer(int width) {
-		      this.width = width;
-		   }
-
-		   @Override
-		   public Component getListCellRendererComponent(JList list, Object value,
-		         int index, boolean isSelected, boolean cellHasFocus) {
-		      String text = HTML_1 + String.valueOf(width) + HTML_2 + value.toString()
-		            + HTML_3;
-		      return super.getListCellRendererComponent(list, text, index, isSelected,
-		            cellHasFocus);
-		   }
-
-		}
 }

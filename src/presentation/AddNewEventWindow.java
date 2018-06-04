@@ -129,7 +129,6 @@ public class AddNewEventWindow extends JDialog {
 							int res = Integer.parseInt(spinner.getValue().toString());
 							if(res != 0) {
 								notificationDays = res;
-								System.out.println(notificationDays);
 							}
 						}
 					}
