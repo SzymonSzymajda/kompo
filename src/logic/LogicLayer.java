@@ -189,15 +189,12 @@ public class LogicLayer {
 	public ArrayList<Event> getNotifications(Calendar date){
 		Calendar now = (Calendar) date.clone();
 		date.add(Calendar.DATE, 7);
-		System.out.println(now.getTime());
-		System.out.println(date.getTime());
 		ArrayList<Event> ret = new ArrayList<Event>();
 		for(Event e : this.getAllEvents().values()) {
 			if(		   e.getNotification().get(Calendar.YEAR) == now.get(Calendar.YEAR)
 					&& e.getNotification().get(Calendar.MONTH) == now.get(Calendar.MONTH)
 					&& e.getNotification().get(Calendar.DATE) >= now.get(Calendar.DATE)
 					&& e.getNotification().get(Calendar.DATE) <= date.get(Calendar.DATE)){
-				System.out.println(e);
 				ret.add(e);
 			}
 		}
