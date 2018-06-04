@@ -28,6 +28,7 @@ import com.thoughtworks.xstream.io.xml.StaxDriver;
 
 import logic.LogicLayer;
 import logic.LogicLayerException;
+import logic.OpenOfficeSaver;
 import logic.Serializer;
 import logic.XMLSerializer;
 
@@ -120,6 +121,7 @@ public class Settings {
             		try {
             			Serializer s = new XMLSerializer();
 						s.serialize("autosave.xml", ll.getDataService());
+						new OpenOfficeSaver().save("luj.odt", ll.getDataService());
 					} catch (LogicLayerException e1) {
 						new ErrorWindow(e1);
 					}
@@ -182,7 +184,6 @@ public class Settings {
 		mntmAutosave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int result = JOptionPane.showConfirmDialog(frame, "Do you want to enable autosaving");
-				//System.out.print(result);
 				if(result == 0) {
 					Settings.getInstance().autosave = true;
 				}else if(result == 1) {

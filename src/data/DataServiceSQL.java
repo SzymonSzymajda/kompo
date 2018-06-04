@@ -43,7 +43,7 @@ public class DataServiceSQL extends DataService{
 	}
 
 	/**
-	 * @return
+	 * @return arrayList containing Person objects pulled from remote database
 	 */
 	private ArrayList<Person> loadPeopleFromDatabase() {
 		ArrayList<Person> ret = new ArrayList<Person>();		
@@ -63,7 +63,7 @@ public class DataServiceSQL extends DataService{
 	}
 	
 	/**
-	 * @return
+	 * @return map containing keys and Event objects pulled from database
 	 */
 	private TreeMap<Integer, Event> loadEventsFromDatabase() {
 		TreeMap<Integer, Event> ret = new TreeMap<Integer, Event>();

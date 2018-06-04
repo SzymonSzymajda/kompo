@@ -4,7 +4,7 @@ package logic;
 public class LogicLayerException extends Exception {
 
 	/**
-	 * @param msg
+	 * @param msg the detail message
 	 */
 	public LogicLayerException(String msg) {
 		super(msg);

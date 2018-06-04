@@ -4,7 +4,7 @@ package data;
 public class DataServiceException extends Exception {
 
 	/**
-	 * @param msg
+	 * @param msg the detail message
 	 */
 	public DataServiceException(String msg) {
 		super(msg);

@@ -16,8 +16,6 @@ import data.Person;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Locale;
-import java.util.Vector;
-
 import javax.swing.JSplitPane;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
@@ -27,15 +25,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import javax.swing.JTextArea;
-import java.awt.Font;
-
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.ListModel;
 import javax.swing.JList;
 import java.awt.FlowLayout;
 
@@ -51,7 +42,7 @@ public class UserInterface extends JFrame {
 	private JList<Event> list = new JList<Event>();
 	
 	/**
-	 * @param ll
+	 * @param ll LogicLayer object to be bound to new UserInterface instance
 	 */
 	public static void getInstance(LogicLayer ll) {
 		if(instance == null) {
