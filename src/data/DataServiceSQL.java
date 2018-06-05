@@ -45,7 +45,6 @@ public class DataServiceSQL extends DataService{
 	 */
 	private void loadFromDatabase() {
 		super.eventCounter = this.setEventCounter();
-		System.out.println(super.eventCounter);
 		super.Data.People = this.loadPeopleFromDatabase();
 		super.Data.Events = this.loadEventsFromDatabase();		
 	}

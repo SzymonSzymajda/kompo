@@ -19,6 +19,9 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+/**
+ * Dialog for saving data to xml files
+ */
 @SuppressWarnings("serial")
 public class SaveToXmlWindow extends JDialog {
 

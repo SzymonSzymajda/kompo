@@ -27,6 +27,9 @@ import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import java.awt.FlowLayout;
 
+/**
+ * Singleton containing the main application view
+ */
 @SuppressWarnings("serial")
 public class UserInterface extends JFrame {
 
@@ -39,7 +42,8 @@ public class UserInterface extends JFrame {
 	private JList<Event> list = new JList<Event>();
 	
 	/**
-	 * @param ll LogicLayer object to be bound to new UserInterface instance
+	 * If necessary creates the instance of the EventListWindow and shows it
+	 * @param ll Current LogicLayer
 	 */
 	public static void getInstance(LogicLayer ll) {
 		if(instance == null) {
@@ -197,7 +201,8 @@ public class UserInterface extends JFrame {
 	}
 	
 	/**
-	 * @param ll
+	 * Updates the list of events showed in the UserInterface frame
+	 * @param ll Current LogicLayer
 	 */
 	public void updateEventList(LogicLayer ll) {
 		DefaultListModel<Event> dlm = new DefaultListModel<Event>();
@@ -208,7 +213,7 @@ public class UserInterface extends JFrame {
 	}
 
 	/**
-	 * 
+	 * Updates the calendar in the UserInterface frame
 	 */
 	void updateMonth() {
 	    cal.set(Calendar.DAY_OF_MONTH, 1);

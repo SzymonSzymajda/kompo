@@ -22,6 +22,9 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
+/**
+ * Dialog for deleting Events
+ */
 @SuppressWarnings("serial")
 public class DeleteEventWindow extends JDialog {
 

@@ -20,6 +20,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Component;
 
+/**
+ * Dialog for loading data from xml 
+ */
 @SuppressWarnings("serial")
 public class LoadFromXmlWindow extends JDialog {
 

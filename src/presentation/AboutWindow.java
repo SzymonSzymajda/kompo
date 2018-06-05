@@ -12,6 +12,9 @@ import javax.swing.JTextField;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 
+/**
+ * Dialog with information about the application
+ */
 @SuppressWarnings("serial")
 public class AboutWindow extends JDialog {
 

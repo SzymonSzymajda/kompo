@@ -23,6 +23,9 @@ import javax.swing.JLabel;
 import javax.swing.JComboBox;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
+/**
+ * Dialog for choosing and adding new Person
+ */
 @SuppressWarnings("serial")
 public class UserSelectionWindow extends JDialog {
 
@@ -118,6 +121,11 @@ public class UserSelectionWindow extends JDialog {
 		setVisible(true);
 	}
 	
+	/**
+	 * Returns Vector containing String with name and surname of every stored Person
+	 * @param ll Current LogicLayer object
+	 * @return Vector containing String with name and surname
+	 */
 	Vector<String> getComboList(LogicLayer ll) {
 		Vector<String> ret =  new Vector<String>();
 		for(Person p : ll.getAllPeople()) {
