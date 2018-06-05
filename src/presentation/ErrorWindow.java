@@ -4,6 +4,9 @@ import javax.swing.JOptionPane;
 
 import javax.swing.JDialog;
 
+/**
+ * Dialog for showing errors and warnings
+ */
 @SuppressWarnings("serial")
 public class ErrorWindow extends JDialog{
 	

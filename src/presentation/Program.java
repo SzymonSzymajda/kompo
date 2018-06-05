@@ -3,6 +3,9 @@ package presentation;
 import logic.LogicLayer;
 import presentation.UserInterface;
 
+/**
+ * Class containing main method
+ */
 public class Program {
 
 	public static void main(String[] args) {

@@ -15,6 +15,9 @@ import javax.swing.JList;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 
+/**
+ * Singleton showing notifications for the next week
+ */
 @SuppressWarnings("serial")
 public class EventListWindow extends JFrame {
 
@@ -22,6 +25,10 @@ public class EventListWindow extends JFrame {
 	private static volatile EventListWindow instance = null;
 	private JList<Notif> list;
 	
+	/**
+	 * If necessary creates the instance of the EventListWindow
+	 * @param ll
+	 */
 	public static void getInstance(LogicLayer ll) {
 		if(instance == null) {
 			instance = new EventListWindow(ll);
@@ -60,6 +67,9 @@ public class EventListWindow extends JFrame {
 		this.setVisible(true);
 	}
 
+	/**
+	 * @param ll
+	 */
 	public void updateNotificationList(LogicLayer ll) {
 		DefaultListModel<Notif> dlm = new DefaultListModel<Notif>();
         for(Event item: ll.getNotifications(Calendar.getInstance())) {
@@ -69,12 +79,22 @@ public class EventListWindow extends JFrame {
 		
 	}
 	
+	/**
+	 * Class used to override toString method from Person class
+	 */
 	class Notif extends Event{
+		/**
+		 * Creates Notif object from the given Event
+		 * @param item Event to be copied
+		 */
 		public Notif(Event item) {
 			Description = item.getDescription();
 			EventDate = item.getEventDateCal();
 		}
 
+		/* (non-Javadoc)
+		 * @see data.Event#toString()
+		 */
 		@Override
 		public String toString() {
 			SimpleDateFormat time = new SimpleDateFormat("H:m");

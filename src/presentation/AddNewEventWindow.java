@@ -31,10 +31,13 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.Dimension;
 
+/**
+ * Dialog for adding new Event
+ */
 @SuppressWarnings("serial")
 public class AddNewEventWindow extends JDialog {
 
-	private final JPanel contentPanel = new JPanel();
+	final JPanel contentPanel = new JPanel();
 	JTextArea textArea;
 	JSpinner spinner;
 	int notificationDays = 0;

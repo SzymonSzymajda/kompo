@@ -32,19 +32,32 @@ import logic.OpenOfficeSaver;
 import logic.Serializer;
 import logic.XMLSerializer;
 
+
+/**
+ * Class containing all the application settings and methods for initialization
+ */
 public class Settings {
 	
 	public static Settings instance = null;
 	public Color backgroundColor;
-	public boolean autosave;
+	public boolean autosaveToXML;
 	public transient boolean database;
 	
-	public Settings() {
+	
+	/**
+	 * Creates the Settings object
+	 */
+	private Settings() {
 		backgroundColor = null;
-		autosave = true;
+		autosaveToXML = true;
 		database = false;
 	}
 	
+	
+	/**
+	 * If necessary creates and returns the instance of the Settings singleton
+	 * @return instance of the Settings singleton
+	 */
 	public static Settings getInstance() {
 		if(instance == null) {
 			instance = new Settings();
@@ -52,6 +65,9 @@ public class Settings {
 		return instance;
 	}
 	
+	/**
+	 * Exports current settings into the settings.xml file
+	 */
 	public void saveSettings() {
 		
 		XStream xstream = new XStream(new StaxDriver());
@@ -62,6 +78,9 @@ public class Settings {
 		}
 	}
 	
+	/**
+	 * Imports settings into the settings.xml file
+	 */
 	public void loadSettings() {
 		XStream xstream = new XStream(new StaxDriver());
 		FileInputStream fileIn = null;
@@ -77,11 +96,16 @@ public class Settings {
 		}
 	}
 	
+	/**
+	 * Loads settings; if xml autosave is enabled, imports data from autosave.xml and applies some essential settings to the frame
+	 * @param frame the frame for which the settings are to be applied
+	 * @param ll current LogicLayer
+	 */
 	public void init(JFrame frame, LogicLayer ll) {
 		
 		loadSettings();
 		
-		if(Settings.getInstance().autosave) {
+		if(Settings.getInstance().autosaveToXML) {
 			try {
 				Serializer s = new XMLSerializer();
 				ll.loadDataService(s.deserialize("autosave.xml"));
@@ -116,7 +140,7 @@ public class Settings {
             public void windowClosing(WindowEvent e)
             {
     			saveSettings();
-            	if(Settings.getInstance().autosave) {
+            	if(Settings.getInstance().autosaveToXML) {
             		try {
             			Serializer s = new XMLSerializer();
 						s.serialize("autosave.xml", ll.getDataService());
@@ -130,6 +154,12 @@ public class Settings {
         });
 	}
 
+	/**
+	 * Creates menu in the given frame
+	 * @param frame the frame in which the menu is to be initialized
+	 * @param cp contentPane
+	 * @param ll curreent LogicLayer
+	 */
 	public void menuInit(JFrame frame, JPanel cp, LogicLayer ll) {
 		JMenuBar menuBar = new JMenuBar();
 		frame.setJMenuBar(menuBar);
@@ -184,9 +214,9 @@ public class Settings {
 			public void actionPerformed(ActionEvent e) {
 				int result = JOptionPane.showConfirmDialog(frame, "Do you want to enable autosaving");
 				if(result == 0) {
-					Settings.getInstance().autosave = true;
+					Settings.getInstance().autosaveToXML = true;
 				}else if(result == 1) {
-					Settings.getInstance().autosave = false;
+					Settings.getInstance().autosaveToXML = false;
 				}
 			}
 		});
@@ -222,26 +252,34 @@ public class Settings {
 		});
 	}
 	
+	/**
+	 * Custom renderer for JList with changeable width and a wrapping text
+	 */
 	@SuppressWarnings("serial")
 	static class MyCellRenderer extends DefaultListCellRenderer {
-		   public static final String HTML_1 = "<html><body style='width: ";
-		   public static final String HTML_2 = "px'>";
-		   public static final String HTML_3 = "</html>";
-		   private int width;
-
-		   public MyCellRenderer(int width) {
-		      this.width = width;
-		   }
-
-		   @Override
-		   public Component getListCellRendererComponent(@SuppressWarnings("rawtypes") JList list, Object value,
-		         int index, boolean isSelected, boolean cellHasFocus) {
-		      String text = HTML_1 + String.valueOf(width) + HTML_2 + value.toString()
-		            + HTML_3;
-		      return super.getListCellRendererComponent(list, text, index, isSelected,
-		            cellHasFocus);
-		   }
-
+	
+		public static final String HTML_1 = "<html><body style='width: ";
+		public static final String HTML_2 = "px'>";
+		public static final String HTML_3 = "</html>";
+		private int width;
+	
+		/**
+		 * Creates the MyCellRenderer object with a given width
+		 * @param width
+		 */
+		public MyCellRenderer(int width) {
+			this.width = width;
 		}
+	
+		@SuppressWarnings("rawtypes")
+		@Override
+		public Component getListCellRendererComponent(JList list, Object value,
+														int index, boolean isSelected, 
+														boolean cellHasFocus) {
+			String text = HTML_1 + String.valueOf(width) + HTML_2 + value.toString() + HTML_3;
+			return super.getListCellRendererComponent(list, text, index, isSelected, cellHasFocus);
+	   }
+	
+	}
 
 }
