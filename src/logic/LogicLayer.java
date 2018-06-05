@@ -25,6 +25,7 @@ public class LogicLayer {
 	}
 	
 	/**
+	 * Creates new Person object with given name and surname
 	 * @param name name of new Person object
 	 * @param surname surname of new Person object
 	 */
@@ -33,6 +34,7 @@ public class LogicLayer {
 	}
 	
 	/**
+	 * Returns Person object with given name and surname or throws LogicLayerException if object is not found
 	 * @param name name of person
 	 * @param surname surname of person
 	 * @return Person object with given name and surname
@@ -47,6 +49,7 @@ public class LogicLayer {
 	}
 	
 	/**
+	 * Deletes Person object with given name and surname or throws LogicLayerException if object is not found
 	 * @param name name of person
 	 * @param surname surname of person
 	 * @throws LogicLayerException if given Person object with given name and surname does not exist
@@ -60,6 +63,7 @@ public class LogicLayer {
 	}
 	
 	/**
+	 * Deletes given Person object or throws LogicLayerExcpetion if object is not found
 	 * @param p Person object being deleted
 	 * @throws LogicLayerException if given person does not exist
 	 */
@@ -73,6 +77,7 @@ public class LogicLayer {
 	}
 	
 	/**
+	 * Returns an ArrayList containing all stored Person objects
 	 * @return list containing all stored Person objects
 	 */
 	public ArrayList<Person> getAllPeople(){
@@ -80,6 +85,7 @@ public class LogicLayer {
 	}
 	
 	/**
+	 * Creates an Event object with given parameters
 	 * @param year year of the event
 	 * @param month month of the event
 	 * @param day day of the event
@@ -93,6 +99,7 @@ public class LogicLayer {
 	}
 	
 	/**
+	 * Creates an Event object with given parameters
 	 * @param year year of the event
 	 * @param month month of the event
 	 * @param day day of the event
@@ -107,6 +114,7 @@ public class LogicLayer {
 	}
 	
 	/**
+	 * Adds given Event object to database
 	 * @param e Event object being added to database
 	 */
 	public void createEvent(Event e){
@@ -114,6 +122,7 @@ public class LogicLayer {
 	}
 	
 	/**
+	 * Returns Event object mapped to given key or throws LogicLayerException if given key is not mapped
 	 * @param id key to which sought Event object is mapped
 	 * @return Event object mapped to given key
 	 * @throws LogicLayerException if given key has no value mapped to it
@@ -127,6 +136,7 @@ public class LogicLayer {
 	}
 	
 	/**
+	 * Updates Event object mapped to given key or throws LogicLayerException if given key is not mapped
 	 * @param id key to which updated Event object is mapped
 	 * @param e new Event object to be mapped under given key
 	 * @throws LogicLayerException if given key has no value mapped to it
@@ -140,6 +150,7 @@ public class LogicLayer {
 	}
 	
 	/**
+	 * Deletes Event object mapped to given key or throws LogicLayerException if given key is not mapped
 	 * @param id key to which Event object being removed is mapped
 	 * @throws LogicLayerException if given key has no value mapped to it
 	 */
@@ -152,6 +163,7 @@ public class LogicLayer {
 	}
 	
 	/**
+	 * Deletes given Event object or throws LogicLayerException if database does not contain e
 	 * @param e Event object being removed
 	 * @throws LogicLayerException if given value is not mapped
 	 */
@@ -164,6 +176,7 @@ public class LogicLayer {
 	}
 	
 	/**
+	 * return TreeMap containing all stored keys and events
 	 * @return map contaning all stored Event objects
 	 */
 	public TreeMap<Integer, Event> getAllEvents(){
@@ -171,6 +184,7 @@ public class LogicLayer {
 	}
 	
 	/**
+	 * Returns an ArrayList containing all events occuring on given day
 	 * @param date day whose events are going to be returned
 	 * @return list containing events happening on given date
 	 */
@@ -186,6 +200,11 @@ public class LogicLayer {
 		return ret;
 	}
 	
+	/**
+	 * Returns an ArrayList containing all events which have notifications set for given week
+	 * @param date date to be checked
+	 * @return ArrayList containing events with notifications set for given week
+	 */
 	public ArrayList<Event> getNotifications(Calendar date){
 		Calendar now = (Calendar) date.clone();
 		date.add(Calendar.DATE, 7);
@@ -202,6 +221,7 @@ public class LogicLayer {
 	}
 	
 	/**
+	 * Sets given DataService object as current DataService
 	 * @param data DataService object to be set as current DataService
 	 */
 	public void loadDataService(DataService data) {
@@ -212,6 +232,7 @@ public class LogicLayer {
 	}
 	
 	/**
+	 * Returns this instance's DataService
 	 * @return DataService object
 	 */
 	public DataService getDataService() {
@@ -219,6 +240,7 @@ public class LogicLayer {
 	}
 	
 	/**
+	 * Returns string containing description of all events occuring on given date
 	 * @param day date whose description shall be returned
 	 * @return String containing description of all events on given day
 	 */
@@ -236,6 +258,7 @@ public class LogicLayer {
 	}
 	
 	/**
+	 * Removes all events occuring before given date
 	 * @param cutoff date before which all events are going to be removed
 	 */
 	public void removeOldEvents(Calendar cutoff) {
