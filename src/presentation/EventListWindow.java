@@ -27,7 +27,7 @@ public class EventListWindow extends JFrame {
 	
 	/**
 	 * If necessary creates the instance of the EventListWindow
-	 * @param ll
+	 * @param ll Current LogicLayer
 	 */
 	public static void getInstance(LogicLayer ll) {
 		if(instance == null) {
@@ -68,7 +68,8 @@ public class EventListWindow extends JFrame {
 	}
 
 	/**
-	 * @param ll
+	 * Updates notifications
+	 * @param ll Current LogicLayer
 	 */
 	public void updateNotificationList(LogicLayer ll) {
 		DefaultListModel<Notif> dlm = new DefaultListModel<Notif>();
