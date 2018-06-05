@@ -8,6 +8,7 @@ public class Person {
 	public Person() {};
 	
 	/**
+	 * Creates a Person object with a given parameters
 	 * @param name name of the person
 	 * @param surname surname of the person
 	 */
@@ -18,6 +19,7 @@ public class Person {
 	}	
 
 	/**
+	 * Creates a Person object from another Person object
 	 * @param currentPerson Person object whose values are going to be copied
 	 */
 	public Person(Person currentPerson) {
@@ -26,6 +28,7 @@ public class Person {
 	}
 
 	/**
+	 * Returns the name of the Person
 	 * @return String containing name of a person
 	 */
 	public String getName() {
@@ -33,6 +36,7 @@ public class Person {
 	}
 
 	/**
+	 * Sets the name of the Person
 	 * @param name String to be set as a new name
 	 */
 	public void setName(String name) {
@@ -40,6 +44,7 @@ public class Person {
 	}
 
 	/**
+	 * Returns the surname of the Person
 	 * @return String containing surname of a person
 	 */
 	public String getSurname() {
@@ -47,6 +52,7 @@ public class Person {
 	}
 
 	/**
+	 * Sets the surname of the Person
 	 * @param surname String to be set as a new surname
 	 */
 	public void setSurname(String surname) {
@@ -62,6 +68,7 @@ public class Person {
 	}
 	
 	/**
+	 * Compares this Person with a given one
 	 * @param p Person object to compare this Person against
 	 * @return true if both object fields are equal, false otherwise
 	 */

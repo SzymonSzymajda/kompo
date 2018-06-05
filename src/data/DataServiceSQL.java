@@ -18,7 +18,7 @@ public class DataServiceSQL extends DataService{
 	private Connection con = null;
 	
 	/**
-	 * 
+	 * Creates a DataServiceSQL object and connects it to the database
 	 */
 	public DataServiceSQL() {
 		super();
@@ -37,7 +37,7 @@ public class DataServiceSQL extends DataService{
 	}
 	
 	/**
-	 * 
+	 * Fills DataContext with data from the database
 	 */
 	private void loadFromDatabase() {
 		super.eventCounter = this.setEventCounter();
@@ -47,6 +47,7 @@ public class DataServiceSQL extends DataService{
 	}
 
 	/**
+	 * 
 	 * @return arrayList containing Person objects pulled from remote database
 	 */
 	private ArrayList<Person> loadPeopleFromDatabase() {

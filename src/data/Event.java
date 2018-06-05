@@ -18,6 +18,7 @@ public class Event implements Serializable{
 	public Event() {}
 	
 	/**
+	 * Creates an Event object with the given parameters
 	 * @param year year of the event
 	 * @param month month of the event
 	 * @param day day of the event
@@ -35,6 +36,7 @@ public class Event implements Serializable{
 	}
 	
 	/**
+	 * Creates an Event object with the given parameters
 	 * @param date date of the event
 	 * @param description description of the event
 	 * @param owner owner of the event
@@ -48,6 +50,7 @@ public class Event implements Serializable{
 	}
 	
 	/**
+	 * Creates an Event object with the given parameters
 	 * @param year year of the event
 	 * @param month month of the event
 	 * @param day day of the event
@@ -67,6 +70,7 @@ public class Event implements Serializable{
 	}
 	
 	/**
+	 * Creates an Event object with the given parameters
 	 * @param date date of the event
 	 * @param description description of the event
 	 * @param notification Notification object linked to the event
@@ -83,6 +87,7 @@ public class Event implements Serializable{
 
 
 	/**
+	 * Returns the date of the Event
 	 * @return date of the event as a Date object
 	 */
 	public Date getEventDate() {
@@ -90,6 +95,7 @@ public class Event implements Serializable{
 	}
 	
 	/**
+	 * Returns the date of the Event
 	 * @return date of the event as a Calendar object
 	 */
 	public Calendar getEventDateCal() {
@@ -97,6 +103,7 @@ public class Event implements Serializable{
 	}
 
 	/**
+	 * Sets the date of the Event with the given parameters
 	 * @param year year of the event
 	 * @param month month of the event
 	 * @param day day of the event
@@ -106,6 +113,7 @@ public class Event implements Serializable{
 	}
 
 	/**
+	 * Returns the description of the Event
 	 * @return String containing description of the event
 	 */
 	public String getDescription() {
@@ -113,6 +121,7 @@ public class Event implements Serializable{
 	}
 	
 	/**
+	 * Returns the owner of the Event
 	 * @return Person object linked the event
 	 */
 	public Person getOwner() {
@@ -120,6 +129,7 @@ public class Event implements Serializable{
 	}
 	
 	/**
+	 * Returns the notification date of the Event
 	 * @return Notification object linked to the event
 	 */
 	public Calendar getNotification() {
@@ -127,6 +137,7 @@ public class Event implements Serializable{
 	}
 
 	/**
+	 * Sets the description of the Event with the given String
 	 * @param description String containing description description of the event
 	 */
 	public void setDescription(String description) {
