@@ -12,6 +12,10 @@ import data.Event;
 import data.Person;
 import presentation.Settings;
 
+/**
+ * Class used for communication between presentation layer and data layer, implementing more specific methods for retrieving or storing data
+ *
+ */
 public class LogicLayer {
 	
 	private DataService Data;

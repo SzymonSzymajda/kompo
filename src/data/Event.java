@@ -7,6 +7,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+/**
+ * Represents a single event
+ *
+ */
 public class Event implements Serializable{
 	
 	private static final long serialVersionUID = 1L;

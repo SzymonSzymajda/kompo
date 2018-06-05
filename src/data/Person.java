@@ -1,5 +1,9 @@
 package data;
 
+/**
+ * Represents a single person
+ *
+ */
 public class Person {
 	private String Name;
 	private String Surname;

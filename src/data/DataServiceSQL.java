@@ -13,6 +13,10 @@ import java.util.TreeMap;
 import com.microsoft.sqlserver.jdbc.SQLServerDataSource;
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 
+/**
+ * Class extending DataService class, containing methods to pull and push data to and from the database
+ *
+ */
 public class DataServiceSQL extends DataService{
 	
 	private Connection con = null;

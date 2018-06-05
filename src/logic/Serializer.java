@@ -2,6 +2,10 @@ package logic;
 
 import data.DataService;
 
+/**
+ * Interface for serialization classes
+ *
+ */
 public interface Serializer {
 	
 	/**
