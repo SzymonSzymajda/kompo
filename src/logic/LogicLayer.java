@@ -10,13 +10,18 @@ import data.DataServiceException;
 import data.DataServiceSQL;
 import data.Event;
 import data.Person;
+import presentation.Settings;
 
 public class LogicLayer {
 	
-	private DataServiceSQL Data;
+	private DataService Data;
 	
 	public LogicLayer() {
-		this.Data = new DataServiceSQL();
+		if(Settings.getInstance().database) {
+			this.Data = new DataServiceSQL();	
+		} else {
+			this.Data = new DataService();
+		}
 	}
 	
 	/**
@@ -184,15 +189,12 @@ public class LogicLayer {
 	public ArrayList<Event> getNotifications(Calendar date){
 		Calendar now = (Calendar) date.clone();
 		date.add(Calendar.DATE, 7);
-		System.out.println(now.getTime());
-		System.out.println(date.getTime());
 		ArrayList<Event> ret = new ArrayList<Event>();
 		for(Event e : this.getAllEvents().values()) {
 			if(		   e.getNotification().get(Calendar.YEAR) == now.get(Calendar.YEAR)
 					&& e.getNotification().get(Calendar.MONTH) == now.get(Calendar.MONTH)
 					&& e.getNotification().get(Calendar.DATE) >= now.get(Calendar.DATE)
 					&& e.getNotification().get(Calendar.DATE) <= date.get(Calendar.DATE)){
-				System.out.println(e);
 				ret.add(e);
 			}
 		}
@@ -203,7 +205,10 @@ public class LogicLayer {
 	 * @param data DataService object to be set as current DataService
 	 */
 	public void loadDataService(DataService data) {
-		this.Data = (DataServiceSQL) data;
+		if(Settings.getInstance().database) {
+			this.Data = (DataServiceSQL) data;
+		}
+		else this.Data = data;
 	}
 	
 	/**
