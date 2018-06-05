@@ -208,7 +208,7 @@ public class Settings {
 		});
 		mnView.add(mntmCalendar);
 		
-		JMenuItem mntmListOfEvents = new JMenuItem("List of events");
+		JMenuItem mntmListOfEvents = new JMenuItem("Notifications");
 		mntmListOfEvents.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				EventListWindow.getInstance(ll);
