@@ -23,6 +23,12 @@ public class OpenOfficeSaver {
 		return ret;
 	}
 
+	/**
+	 * Exports give DataService to ODT format
+	 * @param filename name of output file
+	 * @param data DataService to be exported to ODT format
+	 * @throws LogicLayerException if exception occurs 
+	 */
 	public void save(String filename, DataService data) throws LogicLayerException {
 
 		OdfTextDocument odt;
