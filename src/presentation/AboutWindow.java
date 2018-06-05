@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -15,7 +16,7 @@ import javax.swing.SwingConstants;
 public class AboutWindow extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
-	private JTextField txtAuthors;
+	private JTextArea txtAuthors;
 
 	
 	public AboutWindow() {
@@ -27,11 +28,11 @@ public class AboutWindow extends JDialog {
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(new BorderLayout(0, 0));
 		{
-			txtAuthors = new JTextField();
-			txtAuthors.setHorizontalAlignment(SwingConstants.CENTER);
+			txtAuthors = new JTextArea();
+			//txtAuthors.setHorizontalAlignment(SwingConstants.CENTER);
 			txtAuthors.setEditable(false);
 			txtAuthors.setFont(new Font("Tahoma", Font.PLAIN, 14));
-			txtAuthors.setText("Authors: Szymon Szymajda, Pawe³ Galewicz");
+			txtAuthors.setText("Shortsight\nVersion: 1.0\nAuthors: Szymon Szymajda, Pawe³ Galewicz\nDescription: Calendar application");
 			contentPanel.add(txtAuthors);
 			txtAuthors.setColumns(10);
 		}
