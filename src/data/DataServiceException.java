@@ -1,5 +1,9 @@
 package data;
 
+/**
+ * Exception class for data package
+ *
+ */
 @SuppressWarnings("serial")
 public class DataServiceException extends Exception {
 

@@ -1,5 +1,9 @@
 package logic;
 
+/**
+ * Exception class for logic package
+ *
+ */
 @SuppressWarnings("serial")
 public class LogicLayerException extends Exception {
 

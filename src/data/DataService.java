@@ -3,6 +3,10 @@ package data;
 import java.util.ArrayList;
 import java.util.TreeMap;
 
+/**
+ * Class used for processing data from DataContext class (mainly CRUD methods)
+ *
+ */
 public class DataService {
 	
 	protected DataContext Data = new DataContext();

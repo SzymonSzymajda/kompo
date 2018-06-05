@@ -10,6 +10,10 @@ import com.thoughtworks.xstream.io.xml.StaxDriver;
 
 import data.DataService;
 
+/**
+ * Class used for serialization and deserialization to and from XML format, implements Serializer interface
+ *
+ */
 public class XMLSerializer implements Serializer {
 	
 	/* (non-Javadoc)

@@ -6,6 +6,10 @@ import org.odftoolkit.odfdom.doc.OdfTextDocument;
 
 import data.DataService;
 
+/**
+ * Class used to export data to ODT format
+ *
+ */
 @SuppressWarnings("deprecation")
 public class OpenOfficeSaver {
 
