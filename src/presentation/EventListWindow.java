@@ -15,9 +15,8 @@ import javax.swing.JList;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 
-/**
- * Singleton showing notifications for the next week
- */
+
+
 @SuppressWarnings("serial")
 public class EventListWindow extends JFrame {
 
@@ -27,7 +26,7 @@ public class EventListWindow extends JFrame {
 	
 	/**
 	 * If necessary creates the instance of the EventListWindow
-	 * @param ll Current LogicLayer
+	 * @param ll
 	 */
 	public static void getInstance(LogicLayer ll) {
 		if(instance == null) {
@@ -68,8 +67,7 @@ public class EventListWindow extends JFrame {
 	}
 
 	/**
-	 * Updates notifications
-	 * @param ll Current LogicLayer
+	 * @param ll
 	 */
 	public void updateNotificationList(LogicLayer ll) {
 		DefaultListModel<Notif> dlm = new DefaultListModel<Notif>();

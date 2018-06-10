@@ -154,7 +154,7 @@ public class Event implements Serializable{
 	 */
 	@Override
 	public String toString() {
-		SimpleDateFormat ft = new SimpleDateFormat("H:m");
+		SimpleDateFormat ft = new SimpleDateFormat("HH:mm");
 
 		String ret = "";
 		ret = "Time: " + ft.format(EventDate.getTime()) + " | Description: " + Description;

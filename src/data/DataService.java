@@ -107,6 +107,20 @@ public class DataService {
 			throw new DataServiceException("Given ID is not mapped");
 		}			
 	}
+	
+	/**
+	 * Updates the given Event with the other given Event
+	 * @param oldEvent the event to be replaced
+	 * @param newEvent the new event
+	 * @throws DataServiceException if given key has no value mapped to it
+	 */
+	public void updateEvent(Event oldEvent, Event newEvent) throws DataServiceException {
+		for(int key: Data.Events.keySet()) {
+			if(Data.Events.get(key).equals(oldEvent)) {
+				updateEvent(key, newEvent);
+			}
+		}
+	}
 	/**
 	 * Deletes an Event with a given id from the DataContext
 	 * @param id key to which Event object being removed is mapped

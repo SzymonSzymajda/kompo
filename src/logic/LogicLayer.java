@@ -145,9 +145,9 @@ public class LogicLayer {
 	 * @param e new Event object to be mapped under given key
 	 * @throws LogicLayerException if given key has no value mapped to it
 	 */
-	public void updateEvent(int id, Event e) throws LogicLayerException {
+	public void updateEvent(Event oldEvent, Event newEvent) throws LogicLayerException {
 		try {
-			Data.updateEvent(id, e);
+			Data.updateEvent(oldEvent, newEvent);
 		} catch (DataServiceException e1) {
 			throw new LogicLayerException("Given ID is not mapped");
 		}		

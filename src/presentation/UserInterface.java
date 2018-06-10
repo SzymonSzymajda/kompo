@@ -167,14 +167,11 @@ public class UserInterface extends JFrame {
 		JButton btnEditEvent = new JButton("Edit Event");
 		btnEditEvent.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				try {
-					ll.deleteEvent(list.getSelectedValue());
-					new AddNewEventWindow(ll, temp, instance);
-					instance.updateEventList(ll);
-				} catch (LogicLayerException e) {
+				if(list.getSelectedValue() == null){
 					new ErrorWindow("No event chosen");
+				}else {
+					new ModifyEventWindow(ll, temp, instance, list.getSelectedValue());					
 				}
-				
 			}
 		});
 		panel_6.add(btnEditEvent);
