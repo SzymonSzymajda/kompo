@@ -8,9 +8,7 @@ import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.JTextField;
 import java.awt.Font;
-import javax.swing.SwingConstants;
 
 /**
  * Dialog with information about the application
@@ -32,7 +30,6 @@ public class AboutWindow extends JDialog {
 		contentPanel.setLayout(new BorderLayout(0, 0));
 		{
 			txtAuthors = new JTextArea();
-			//txtAuthors.setHorizontalAlignment(SwingConstants.CENTER);
 			txtAuthors.setEditable(false);
 			txtAuthors.setFont(new Font("Tahoma", Font.PLAIN, 14));
 			txtAuthors.setText("Shortsight\nVersion: 1.0\nAuthors: Szymon Szymajda, Pawe³ Galewicz\nDescription: Calendar application");

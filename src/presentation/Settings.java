@@ -90,9 +90,6 @@ public class Settings {
 			fileIn.close();
 		} catch (Exception e) {
 			new ErrorWindow("Unable to load previous settings");
-		} finally {
-			//System.out.println(Settings.getInstance().backgroundColor);
-			//System.out.println(Settings.getInstance().autosave);
 		}
 	}
 	

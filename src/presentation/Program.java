@@ -8,17 +8,13 @@ import presentation.UserInterface;
  */
 public class Program {
 
-	public static void main(String[] args) {
-		LogicLayer ll = new LogicLayer();
-		System.out.println(args.length);
-		
+	public static void main(String[] args) {		
 		if(args.length >= 1) {
-			System.out.println(args[0]);
 			if(args[0].equals("d")) {
-				System.out.println("siema");
 				Settings.getInstance().database = true;
 			}
 		}
+		LogicLayer ll = new LogicLayer();
 		UserInterface.getInstance(ll);
 	}
 

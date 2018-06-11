@@ -107,7 +107,7 @@ public class DataServiceSQL extends DataService{
 			stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			if(!rs.next()) {
-				query = "DBCC CHECKIDENT([calendar_data..Events], RESEED, -1)";
+				query = "DBCC CHECKIDENT([calendar_data..Events], RESEED, 0)";
 				stmt.execute(query);
 				return 0;
 			}
@@ -207,7 +207,7 @@ public class DataServiceSQL extends DataService{
 	@Override
 	public void updateEvent(int id, Event e) throws DataServiceException {
 		PreparedStatement stmt = null;
-		String query = "UPDATE calendar_data..Events SET date = ?, description = ?, ownerName = ?, ownerSurname = ? WHERE ID = ?";
+		String query = "UPDATE calendar_data..Events SET date = ?, description = ?, ownerName = ?, ownerSurname = ?, notification = ? WHERE ID = ?";
 		try {
 			stmt = con.prepareStatement(query);
 			stmt.setTimestamp(1, new java.sql.Timestamp(e.getEventDateCal().getTime().getTime()));
